@@ -1,0 +1,111 @@
+{
+  "projects": [
+    {
+      "id": "commotion-labs",
+      "name": "Commotion Labs",
+      "description": "Ventures and projects under Commotion Labs",
+      "color": "#6366f1",
+      "createdAt": "2026-01-28T00:00:00.000Z"
+    },
+    {
+      "id": "museum-initiatives",
+      "name": "Museum Strategic Initiatives",
+      "description": "Director role - growth and fund acquisition",
+      "color": "#10b981",
+      "createdAt": "2026-01-28T00:00:00.000Z"
+    },
+    {
+      "id": "personal",
+      "name": "Personal",
+      "description": "Personal tasks and projects",
+      "color": "#f59e0b",
+      "createdAt": "2026-01-28T00:00:00.000Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "Set up Arcus + Clawdbot",
+      "description": "Configure AI assistant with Telegram, heartbeat, and essential tools",
+      "status": "done",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": null,
+      "createdAt": "2026-01-28T00:00:00.000Z",
+      "updatedAt": "2026-01-28T02:30:00.000Z",
+      "tags": ["infrastructure", "ai"]
+    },
+    {
+      "id": "task-002",
+      "title": "Build project dashboard",
+      "description": "Kanban board with list view for project management",
+      "status": "done",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": null,
+      "createdAt": "2026-01-28T02:58:00.000Z",
+      "updatedAt": "2026-01-28T17:45:40.824Z",
+      "tags": ["dashboard", "tooling"]
+    },
+    {
+      "id": "task-003",
+      "title": "Configure GitHub CLI access",
+      "description": "Run gh auth login to enable repo management",
+      "status": "done",
+      "priority": "medium",
+      "projectId": "commotion-labs",
+      "assignee": "gideon",
+      "createdAt": "2026-01-28T02:30:00.000Z",
+      "updatedAt": "2026-02-02T16:22:00.000Z",
+      "tags": ["infrastructure"]
+    },
+    {
+      "id": "task-004",
+      "title": "Set up Brave Search API",
+      "description": "Get API key for web research capabilities",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "commotion-labs",
+      "assignee": "gideon",
+      "createdAt": "2026-01-28T02:30:00.000Z",
+      "updatedAt": "2026-01-29T13:57:26.772Z",
+      "tags": ["infrastructure"]
+    },
+    {
+      "id": "task-005",
+      "title": "Coming Soon Landing Page",
+      "description": "Single hero page with vibrant gradient, 'Commotion Labs' title and 'Coming Soon' subtitle. Mobile responsive. Placeholder until full site is built.",
+      "status": "done",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": "forge",
+      "createdAt": "2026-01-30T17:16:00.000Z",
+      "updatedAt": "2026-01-30T17:16:00.000Z",
+      "tags": ["development", "website"]
+    },
+    {
+      "id": "task-006",
+      "title": "Commotion Labs Web Application",
+      "description": "Full interactive web application for Commotion Labs. Scope and features TBD.",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "commotion-labs",
+      "assignee": null,
+      "createdAt": "2026-01-30T17:16:00.000Z",
+      "updatedAt": "2026-01-30T17:16:00.000Z",
+      "tags": ["development", "website"]
+    },
+    {
+      "id": "task-007",
+      "title": "File Vault Application",
+      "description": "Shared file repository for Arcus and Gideon. Features: folder/category organization, file upload/download, metadata (description, tags, uploader name, date). Any file type, local access only, reasonable size limits.",
+      "status": "done",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": "forge",
+      "createdAt": "2026-02-02T15:56:00.000Z",
+      "updatedAt": "2026-02-02T20:57:00.000Z",
+      "tags": ["development", "tooling"]
+    }
+  ]
+}
