@@ -8,18 +8,18 @@
       "createdAt": "2026-01-28T00:00:00.000Z"
     },
     {
-      "id": "museum-initiatives",
-      "name": "Museum Strategic Initiatives",
-      "description": "Director role - growth and fund acquisition",
-      "color": "#10b981",
-      "createdAt": "2026-01-28T00:00:00.000Z"
-    },
-    {
       "id": "personal",
       "name": "Personal",
       "description": "Personal tasks and projects",
       "color": "#f59e0b",
       "createdAt": "2026-01-28T00:00:00.000Z"
+    },
+    {
+      "id": "rcmphc",
+      "name": "RCMPHC",
+      "description": "RCMP Heritage Centre strategic initiatives and operations",
+      "color": "#0ea5e9",
+      "createdAt": "2026-03-23T17:23:34Z"
     }
   ],
   "tasks": [
@@ -33,7 +33,10 @@
       "assignee": null,
       "createdAt": "2026-01-28T00:00:00.000Z",
       "updatedAt": "2026-01-28T02:30:00.000Z",
-      "tags": ["infrastructure", "ai"]
+      "tags": [
+        "infrastructure",
+        "ai"
+      ]
     },
     {
       "id": "task-002",
@@ -45,7 +48,10 @@
       "assignee": null,
       "createdAt": "2026-01-28T02:58:00.000Z",
       "updatedAt": "2026-01-28T17:45:40.824Z",
-      "tags": ["dashboard", "tooling"]
+      "tags": [
+        "dashboard",
+        "tooling"
+      ]
     },
     {
       "id": "task-003",
@@ -57,19 +63,9 @@
       "assignee": "gideon",
       "createdAt": "2026-01-28T02:30:00.000Z",
       "updatedAt": "2026-02-02T16:22:00.000Z",
-      "tags": ["infrastructure"]
-    },
-    {
-      "id": "task-004",
-      "title": "Set up Brave Search API",
-      "description": "Get API key for web research capabilities",
-      "status": "todo",
-      "priority": "medium",
-      "projectId": "commotion-labs",
-      "assignee": "gideon",
-      "createdAt": "2026-01-28T02:30:00.000Z",
-      "updatedAt": "2026-01-29T13:57:26.772Z",
-      "tags": ["infrastructure"]
+      "tags": [
+        "infrastructure"
+      ]
     },
     {
       "id": "task-005",
@@ -81,19 +77,40 @@
       "assignee": "forge",
       "createdAt": "2026-01-30T17:16:00.000Z",
       "updatedAt": "2026-01-30T17:16:00.000Z",
-      "tags": ["development", "website"]
+      "tags": [
+        "development",
+        "website"
+      ]
     },
     {
       "id": "task-006",
       "title": "Commotion Labs Web Application",
       "description": "Full interactive web application for Commotion Labs. Scope and features TBD.",
-      "status": "todo",
+      "status": "backlog",
       "priority": "medium",
       "projectId": "commotion-labs",
-      "assignee": null,
+      "assignee": "gideon",
       "createdAt": "2026-01-30T17:16:00.000Z",
-      "updatedAt": "2026-01-30T17:16:00.000Z",
-      "tags": ["development", "website"]
+      "updatedAt": "2026-03-24T16:00:16.265Z",
+      "tags": [
+        "development",
+        "website"
+      ],
+      "activity": [
+        {
+          "id": "act-1774368016265-osnmfx",
+          "type": "updated",
+          "summary": "Task details updated",
+          "createdAt": "2026-03-24T16:00:16.265Z"
+        },
+        {
+          "id": "act-1774368016265-2uuxzl",
+          "type": "assignee-changed",
+          "summary": "Assignee changed",
+          "detail": "Unassigned → Gideon",
+          "createdAt": "2026-03-24T16:00:16.265Z"
+        }
+      ]
     },
     {
       "id": "task-007",
@@ -105,7 +122,250 @@
       "assignee": "forge",
       "createdAt": "2026-02-02T15:56:00.000Z",
       "updatedAt": "2026-02-02T20:57:00.000Z",
-      "tags": ["development", "tooling"]
+      "tags": [
+        "development",
+        "tooling"
+      ]
+    },
+    {
+      "id": "task-008",
+      "title": "Retail Action Plan: current-state assessment",
+      "description": "Document current state, biggest gaps, and opportunities for retail operations.",
+      "status": "in-progress",
+      "priority": "urgent",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-24"
+    },
+    {
+      "id": "task-009",
+      "title": "Retail Action Plan: accountability matrix",
+      "description": "Create owner table across Retail, Sam, Marketing with clear responsibilities and dates.",
+      "status": "in-progress",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-25"
+    },
+    {
+      "id": "task-010",
+      "title": "Retail Action Plan: bundling and upselling plan",
+      "description": "Work with Raj to define SKU-level bundling/upselling actions and immediate-term execution steps.",
+      "status": "in-progress",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-26"
+    },
+    {
+      "id": "task-011",
+      "title": "Retail SOP template and first draft",
+      "description": "Create concise SOP format (~2.5 pages): process steps, issue handling, escalation contacts.",
+      "status": "in-progress",
+      "priority": "medium",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-24T14:45:44.221Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-31"
+    },
+    {
+      "id": "task-012",
+      "title": "Define Friends/Vets support cost model",
+      "description": "Define all cost buckets: direct spend, waived fees, staff time, utilities, coffee, bar constraints.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-24T15:02:36.526Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-25"
+    },
+    {
+      "id": "task-013",
+      "title": "Collect Friends support data (2 fiscal years)",
+      "description": "Gather inputs from Jenna, Glenn, and Rifky for events, waived costs, and in-kind support.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-28"
+    },
+    {
+      "id": "task-014",
+      "title": "Collect Veterans support data (2 fiscal years)",
+      "description": "Capture bi-monthly meetings and all hosted events, with waived costs and bartender-related constraints.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-28"
+    },
+    {
+      "id": "task-015",
+      "title": "Reconcile Sam financial inputs",
+      "description": "Obtain and reconcile Sam spreadsheets and forwarded Bob email into one validated workbook.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-27"
+    },
+    {
+      "id": "task-016",
+      "title": "Quantify net support and margin impact",
+      "description": "Calculate total support by group and quantify losses including drink price cap impacts.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-30"
+    },
+    {
+      "id": "task-017",
+      "title": "Prepare stakeholder brief for Sam",
+      "description": "Draft concise briefing: support provided, cost drivers, and options for future approach.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-31"
+    },
+    {
+      "id": "task-018",
+      "title": "Complete Security Policy draft",
+      "description": "Build final draft from Jenna’s starter and align with current policy set.",
+      "status": "backlog",
+      "priority": "medium",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-24T14:59:59.753Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-04-01"
+    },
+    {
+      "id": "task-019",
+      "title": "Policy gap register",
+      "description": "Identify remaining policies needed beyond currently up-to-date policy set.",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-04-02"
+    },
+    {
+      "id": "task-020",
+      "title": "Sam policy validation pass",
+      "description": "Route policy package to Sam for review and sign-off/comments.",
+      "status": "backlog",
+      "priority": "medium",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-04-04"
+    },
+    {
+      "id": "task-021",
+      "title": "Draft Volunteer Policy",
+      "description": "Define volunteer obligations, standards, and alignment to all Centre policies.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-04-01"
+    },
+    {
+      "id": "task-022",
+      "title": "Volunteer personal property clause",
+      "description": "Add clause: no personal storage during volunteer duties; Centre not responsible for personal items.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-03-30"
+    },
+    {
+      "id": "task-023",
+      "title": "Volunteer policy rollout and acknowledgement",
+      "description": "Define presentation + acknowledgement process for all volunteers and team members.",
+      "status": "backlog",
+      "priority": "medium",
+      "projectId": "rcmphc",
+      "assignee": "gideon",
+      "createdAt": "2026-03-23T17:20:28Z",
+      "updatedAt": "2026-03-23T17:21:09Z",
+      "tags": [
+        "rcmp-heritage-centre"
+      ],
+      "dueDate": "2026-04-05"
     }
   ]
 }
