@@ -230,14 +230,24 @@ export default function Dashboard() {
             <div><h1 className="text-2xl font-bold">relay.</h1><p className="text-sm text-muted-foreground">Project Dashboard</p></div>
             <div className="flex items-center gap-2"><Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Command Palette</Button><Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save view</Button><Button onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New Task</Button></div>
           </div>
-          <div className="grid sm:grid-cols-4 gap-2"><div className="sm:col-span-2 relative"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search tasks, tags, descriptions..." className="pl-8" /></div>
-          <div className="sm:hidden grid grid-cols-3 gap-2">
-            <Button variant="outline" className="h-10" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Cmd</Button>
-            <Button variant="outline" className="h-10" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save</Button>
-            <Button className="h-10" onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New</Button>
-          </div><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger><SelectValue placeholder="All Projects" /></SelectTrigger><SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select><Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger><SelectValue placeholder="Saved views" /></SelectTrigger><SelectContent><SelectItem value="none">No saved view</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select></div>
+          <div className="grid gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}><TabsList><TabsTrigger value="kanban" className="px-3"><LayoutGrid className="h-4 w-4" /></TabsTrigger><TabsTrigger value="list" className="px-3"><List className="h-4 w-4" /></TabsTrigger></TabsList></Tabs>
+              <Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger className="min-w-[180px]"><SelectValue placeholder="Saved views" /></SelectTrigger><SelectContent><SelectItem value="none">No saved view</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select>
+              <div className="ml-auto flex items-center gap-2">
+                <Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Command view</Button>
+                <Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save view</Button>
+              </div>
+            </div>
+            <div className="relative w-full"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search tasks, tags, descriptions..." className="pl-8 w-full" /></div>
+            <div className="w-full"><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger className="w-full"><SelectValue placeholder="All Projects" /></SelectTrigger><SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select></div>
+            <div className="sm:hidden grid grid-cols-2 gap-2">
+              <Button variant="outline" className="h-10" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Cmd</Button>
+              <Button className="h-10" onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New</Button>
+            </div>
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm"><div className="border rounded p-2"><BarChart3 className="h-4 w-4 inline mr-1" />Overdue: <b>{metrics.overdue}</b></div><div className="border rounded p-2">Due soon: <b>{metrics.dueSoon}</b></div><div className="border rounded p-2">Blocked: <b>{metrics.blocked}</b></div><div className="border rounded p-2">Done: <b>{metrics.completed}</b></div></div>
-          <div className="flex items-center justify-between"><Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}><TabsList><TabsTrigger value="kanban" className="px-3"><LayoutGrid className="h-4 w-4" /></TabsTrigger><TabsTrigger value="list" className="px-3"><List className="h-4 w-4" /></TabsTrigger></TabsList></Tabs><div className="text-xs text-muted-foreground flex items-center gap-1"><Bell className="h-3 w-3" /> {(data.notifications ?? []).filter((n) => !n.read).length} unread</div></div>
+          <div className="text-xs text-muted-foreground flex items-center justify-end gap-1"><Bell className="h-3 w-3" /> {(data.notifications ?? []).filter((n) => !n.read).length} unread</div>
         </div>
       </header>
 
