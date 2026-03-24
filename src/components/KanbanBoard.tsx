@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type DragEvent } from 'react';
 import { Task, Project, TaskStatus, STATUS_CONFIG } from '@/types';
 import { TaskCard } from './TaskCard';
 import { Button } from '@/components/ui/button';
@@ -22,8 +22,19 @@ const COLUMNS: TaskStatus[] = ['backlog', 'todo', 'in-progress', 'review', 'done
 
 export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete, onAddTask, onOpenTask, filterProjectId }: KanbanBoardProps) {
   const [mobileColumnIndex, setMobileColumnIndex] = useState(1);
+  const [dragOverStatus, setDragOverStatus] = useState<TaskStatus | null>(null);
+
   const filteredTasks = filterProjectId ? tasks.filter(t => t.projectId === filterProjectId) : tasks;
   const getProjectById = (id: string) => projects.find(p => p.id === id);
+
+  const handleDropToStatus = (e: DragEvent, targetStatus: TaskStatus) => {
+    e.preventDefault();
+    const taskId = e.dataTransfer.getData('text/task-id');
+    if (!taskId) return;
+    const task = filteredTasks.find(t => t.id === taskId);
+    if (task && task.status !== targetStatus) onStatusChange(taskId, targetStatus);
+    setDragOverStatus(null);
+  };
 
   const currentStatus = COLUMNS[mobileColumnIndex];
   const currentColumnTasks = filteredTasks.filter(t => t.status === currentStatus);
@@ -61,7 +72,15 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
           <Plus className="h-4 w-4 mr-2" /> Add to {currentConfig.label}
         </Button>
 
-        <div className="space-y-2">
+        <div
+          className={`space-y-3 rounded-lg transition-colors ${dragOverStatus === currentStatus ? 'bg-blue-50/60 p-2' : ''}`}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOverStatus(currentStatus);
+          }}
+          onDragLeave={() => setDragOverStatus(null)}
+          onDrop={(e) => handleDropToStatus(e, currentStatus)}
+        >
           {currentColumnTasks.map((task) => (
             <TaskCard key={task.id} task={task} project={getProjectById(task.projectId)} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} onOpenTask={onOpenTask} />
           ))}
@@ -74,7 +93,16 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
           const columnTasks = filteredTasks.filter(t => t.status === status);
           const config = STATUS_CONFIG[status];
           return (
-            <div key={status} className="flex-shrink-0 w-72 bg-muted/50 rounded-lg p-3">
+            <div
+              key={status}
+              className={`flex-shrink-0 w-72 rounded-lg p-3 transition-colors ${dragOverStatus === status ? 'bg-blue-50 ring-2 ring-blue-200' : 'bg-muted/50'}`}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragOverStatus(status);
+              }}
+              onDragLeave={() => setDragOverStatus(null)}
+              onDrop={(e) => handleDropToStatus(e, status)}
+            >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <div className={`w-2 h-2 rounded-full ${config.color}`} />

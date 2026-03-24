@@ -20,9 +20,10 @@ interface TaskCardProps {
   onEdit: (task: Task) => void;
   onDelete: (taskId: string) => void;
   onOpenTask?: (task: Task) => void;
+  onDragStart?: (taskId: string) => void;
 }
 
-export function TaskCard({ task, project, onStatusChange, onEdit, onDelete, onOpenTask }: TaskCardProps) {
+export function TaskCard({ task, project, onStatusChange, onEdit, onDelete, onOpenTask, onDragStart }: TaskCardProps) {
   const priorityConfig = PRIORITY_CONFIG[task.priority];
 
   const formatDate = (dateString?: string) => {
@@ -38,7 +39,16 @@ export function TaskCard({ task, project, onStatusChange, onEdit, onDelete, onOp
   const nextStatus = statuses[currentIndex + 1];
 
   return (
-    <Card className="group cursor-pointer hover:shadow-md transition-shadow" onClick={() => onOpenTask?.(task)}>
+    <Card
+      className="group cursor-pointer hover:shadow-md transition-shadow"
+      draggable
+      onDragStart={(e) => {
+        e.dataTransfer.setData('text/task-id', task.id);
+        e.dataTransfer.effectAllowed = 'move';
+        onDragStart?.(task.id);
+      }}
+      onClick={() => onOpenTask?.(task)}
+    >
       <CardHeader className="p-3 pb-2">
         <div className="flex items-start justify-between gap-2">
           <CardTitle className="text-sm font-medium leading-tight">{task.title}</CardTitle>
