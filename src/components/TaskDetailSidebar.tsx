@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { ASSIGNEE_CONFIG, PRIORITY_CONFIG, Project, STATUS_CONFIG, Task, TaskAttachment, TaskNote } from '@/types';
+import { ASSIGNEE_CONFIG, PRIORITY_CONFIG, Project, STATUS_CONFIG, Task, TaskAttachment } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,8 +10,10 @@ import { Calendar, Download, Eye, Paperclip, Send, X } from 'lucide-react';
 interface TaskDetailSidebarProps {
   task: Task | null;
   projects: Project[];
+  allTasks: Task[];
   onClose: () => void;
-  onAddNote: (taskId: string, body: string) => void;
+  onAddComment: (taskId: string, body: string) => void;
+  onAddDependency: (taskId: string, dependencyTaskId: string) => void;
   onAddAttachments: (taskId: string, files: FileList) => void;
 }
 
@@ -21,22 +23,15 @@ const formatBytes = (bytes: number) => {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 };
 
-export function TaskDetailSidebar({ task, projects, onClose, onAddNote, onAddAttachments }: TaskDetailSidebarProps) {
-  const [noteText, setNoteText] = useState('');
+export function TaskDetailSidebar({ task, projects, allTasks, onClose, onAddComment, onAddDependency, onAddAttachments }: TaskDetailSidebarProps) {
+  const [commentText, setCommentText] = useState('');
+  const [depId, setDepId] = useState('');
   const project = useMemo(() => projects.find(p => p.id === task?.projectId), [projects, task?.projectId]);
   if (!task) return null;
 
-  const notes: TaskNote[] = task.notes ?? [];
   const attachments: TaskAttachment[] = task.attachments ?? [];
-
-  const timeline = [
-    ...(task.activity ?? []).map((a) => ({ id: a.id, at: a.createdAt, label: a.summary, detail: a.detail })),
-    ...notes.map((n) => ({ id: `note-${n.id}`, at: n.createdAt, label: `Note added${n.author ? ` by ${n.author}` : ''}`, detail: n.body })),
-    ...attachments.map((a) => ({ id: `file-${a.id}`, at: a.createdAt, label: 'File uploaded', detail: `${a.name} (${formatBytes(a.size)})` })),
-    { id: 'created-fallback', at: task.createdAt, label: 'Task created', detail: 'Initial creation' },
-  ].sort((a, b) => +new Date(b.at) - +new Date(a.at));
-
   const assigneeLabel = task.assignee ? `${ASSIGNEE_CONFIG[task.assignee].emoji} ${ASSIGNEE_CONFIG[task.assignee].label}` : 'Unassigned';
+  const blockers = (task.dependencies ?? []).map((id) => allTasks.find((t) => t.id === id)).filter(Boolean) as Task[];
 
   return (
     <aside className="fixed right-0 top-0 z-40 h-screen w-full border-l bg-background shadow-xl sm:w-[460px]">
@@ -58,21 +53,36 @@ export function TaskDetailSidebar({ task, projects, onClose, onAddNote, onAddAtt
           {task.dueDate && <section className="flex items-center gap-2 text-sm text-muted-foreground"><Calendar className="h-4 w-4" />Due {new Date(task.dueDate).toLocaleDateString()}</section>}
 
           <section className="space-y-2 border-t pt-4">
-            <h3 className="text-sm font-medium">Notes</h3>
+            <h3 className="text-sm font-medium">Dependencies</h3>
             <div className="flex gap-2">
-              <Input value={noteText} onChange={(e) => setNoteText(e.target.value)} placeholder="Add a note..." />
-              <Button size="icon" onClick={() => { if (!noteText.trim()) return; onAddNote(task.id, noteText.trim()); setNoteText(''); }}><Send className="h-4 w-4" /></Button>
+              <select className="border rounded px-2 py-1 text-sm flex-1" value={depId} onChange={(e) => setDepId(e.target.value)}>
+                <option value="">Select a blocking task…</option>
+                {allTasks.filter((t) => t.id !== task.id).map((t) => <option key={t.id} value={t.id}>{t.title}</option>)}
+              </select>
+              <Button size="sm" onClick={() => { if (!depId) return; onAddDependency(task.id, depId); setDepId(''); }}>Add</Button>
+            </div>
+            <div className="space-y-1">
+              {blockers.length === 0 ? <p className="text-xs text-muted-foreground">No dependencies.</p> : blockers.map((b) => (
+                <p key={b.id} className="text-xs border rounded px-2 py-1">{b.title} · {STATUS_CONFIG[b.status].label}</p>
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-2 border-t pt-4">
+            <h3 className="text-sm font-medium">Comments (@mentions supported)</h3>
+            <div className="flex gap-2">
+              <Input value={commentText} onChange={(e) => setCommentText(e.target.value)} placeholder="Add a comment..." />
+              <Button size="icon" onClick={() => { if (!commentText.trim()) return; onAddComment(task.id, commentText.trim()); setCommentText(''); }}><Send className="h-4 w-4" /></Button>
             </div>
             <div className="space-y-2">
-              {notes.length === 0 ? <p className="text-xs text-muted-foreground">No notes yet.</p> : notes.slice().sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt)).map((note) => (
-                <div key={note.id} className="rounded border p-2"><p className="text-sm">{note.body}</p><p className="mt-1 text-[11px] text-muted-foreground">{new Date(note.createdAt).toLocaleString()}</p></div>
+              {(task.comments ?? []).length === 0 ? <p className="text-xs text-muted-foreground">No comments yet.</p> : task.comments!.slice().reverse().map((note) => (
+                <div key={note.id} className="rounded border p-2"><p className="text-sm">{note.body}</p><p className="mt-1 text-[11px] text-muted-foreground">{note.author} · {new Date(note.createdAt).toLocaleString()}</p></div>
               ))}
             </div>
           </section>
 
           <section className="space-y-2 border-t pt-4">
             <h3 className="text-sm font-medium">Files</h3>
-            <p className="text-xs text-muted-foreground">Allowed: PNG/JPG/WEBP/PDF/TXT/DOC/DOCX up to 10MB each.</p>
             <label className="inline-flex cursor-pointer items-center gap-2 rounded border px-3 py-2 text-sm hover:bg-muted/60">
               <Paperclip className="h-4 w-4" /> Upload file(s)
               <input type="file" className="hidden" multiple onChange={(e) => { if (e.target.files?.length) onAddAttachments(task.id, e.target.files); e.currentTarget.value = ''; }} />
@@ -83,19 +93,10 @@ export function TaskDetailSidebar({ task, projects, onClose, onAddNote, onAddAtt
                   <p className="text-sm font-medium">{file.name}</p>
                   <p className="text-[11px] text-muted-foreground">{formatBytes(file.size)} · {new Date(file.createdAt).toLocaleString()}</p>
                   <div className="mt-2 flex gap-2">
-                    {file.dataUrl && <Button asChild size="sm" variant="outline"><a href={file.dataUrl} target="_blank" rel="noreferrer"><Eye className="h-3.5 w-3.5 mr-1" />Preview</a></Button>}
-                    {file.dataUrl && <Button asChild size="sm" variant="outline"><a href={file.dataUrl} download={file.name}><Download className="h-3.5 w-3.5 mr-1" />Download</a></Button>}
+                    <Button asChild size="sm" variant="outline"><a href={`/api/attachments/${task.id}/${file.id}`} target="_blank" rel="noreferrer"><Eye className="h-3.5 w-3.5 mr-1" />Preview</a></Button>
+                    <Button asChild size="sm" variant="outline"><a href={`/api/attachments/${task.id}/${file.id}?download=1`} download={file.name}><Download className="h-3.5 w-3.5 mr-1" />Download</a></Button>
                   </div>
                 </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="space-y-2 border-t pt-4">
-            <h3 className="text-sm font-medium">Timeline</h3>
-            <div className="space-y-2">
-              {timeline.map((item) => (
-                <div key={item.id} className="rounded border p-2"><p className="text-sm font-medium">{item.label}</p><p className="text-xs text-muted-foreground">{item.detail}</p><p className="mt-1 text-[11px] text-muted-foreground">{new Date(item.at).toLocaleString()}</p></div>
               ))}
             </div>
           </section>

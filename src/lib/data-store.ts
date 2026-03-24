@@ -1,0 +1,111 @@
+import { promises as fs } from 'fs';
+import path from 'path';
+import type { DashboardData, Task, TaskAttachment, TaskRecurrence } from '@/types';
+
+export const DATA_FILE = path.join(process.cwd(), 'data', 'dashboard.json');
+export const UPLOAD_DIR = path.join(process.cwd(), 'data', 'uploads');
+
+const ensureTask = (task: Task): Task => ({
+  ...task,
+  comments: task.comments ?? [],
+  dependencies: task.dependencies ?? [],
+  notes: task.notes ?? [],
+  attachments: (task.attachments ?? []).map((a: TaskAttachment) => ({ ...a, dataUrl: undefined })),
+  activity: task.activity ?? [],
+});
+
+export const normalizeDashboardData = (raw: DashboardData): DashboardData => ({
+  version: 2,
+  projects: raw.projects ?? [],
+  tasks: (raw.tasks ?? []).map(ensureTask),
+  templates: raw.templates ?? [],
+  savedViews: raw.savedViews ?? [],
+  activityFeed: raw.activityFeed ?? [],
+  notifications: raw.notifications ?? [],
+});
+
+export async function loadDashboardData(): Promise<DashboardData> {
+  try {
+    const data = await fs.readFile(DATA_FILE, 'utf-8');
+    const parsed = JSON.parse(data) as DashboardData;
+    return normalizeDashboardData(parsed);
+  } catch {
+    return normalizeDashboardData({ projects: [], tasks: [] });
+  }
+}
+
+export async function saveDashboardData(data: DashboardData): Promise<void> {
+  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
+  const normalized = normalizeDashboardData(data);
+  await fs.writeFile(DATA_FILE, JSON.stringify(normalized, null, 2));
+}
+
+const addDays = (date: Date, days: number) => {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+};
+
+const nextRecurrenceDate = (rec: TaskRecurrence, from = new Date()): Date => {
+  const interval = Math.max(1, rec.interval || 1);
+  if (rec.frequency === 'daily') return addDays(from, interval);
+  if (rec.frequency === 'weekly') return addDays(from, interval * 7);
+  const d = new Date(from);
+  d.setMonth(d.getMonth() + interval);
+  return d;
+};
+
+export function materializeRecurringTasks(data: DashboardData): DashboardData {
+  const now = new Date();
+  const generated: Task[] = [];
+  const tasks = data.tasks.map((task) => {
+    if (!task.recurrence?.enabled || task.isTemplate) return task;
+    const nextDueAt = task.recurrence.nextDueAt ? new Date(task.recurrence.nextDueAt) : undefined;
+    if (!nextDueAt || nextDueAt > now) return task;
+
+    const newId = `task-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    generated.push({
+      ...task,
+      id: newId,
+      title: `${task.title} (recurring)`,
+      status: 'todo',
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+      dueDate: nextDueAt.toISOString(),
+      comments: [],
+      notes: [],
+      attachments: [],
+      activity: [{
+        id: `act-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        type: 'recurrence-generated',
+        summary: 'Generated from recurring rule',
+        createdAt: now.toISOString(),
+      }],
+    });
+
+    return {
+      ...task,
+      recurrence: {
+        ...task.recurrence,
+        nextDueAt: nextRecurrenceDate(task.recurrence, nextDueAt).toISOString(),
+      },
+    };
+  });
+
+  if (!generated.length) return data;
+
+  return {
+    ...data,
+    tasks: [...tasks, ...generated],
+    activityFeed: [
+      {
+        id: `wa-${Date.now()}-recurring`,
+        createdAt: now.toISOString(),
+        actor: 'system',
+        type: 'recurrence',
+        summary: `Generated ${generated.length} recurring task(s)`,
+      },
+      ...(data.activityFeed ?? []),
+    ],
+  };
+}
