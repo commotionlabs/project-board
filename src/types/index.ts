@@ -20,6 +20,14 @@ export interface TaskAttachment {
   dataUrl?: string;
 }
 
+export interface TaskActivity {
+  id: string;
+  type: 'created' | 'updated' | 'status-changed' | 'assignee-changed' | 'note-added' | 'file-uploaded';
+  createdAt: string;
+  summary: string;
+  detail?: string;
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -34,6 +42,7 @@ export interface Task {
   tags?: string[];
   notes?: TaskNote[];
   attachments?: TaskAttachment[];
+  activity?: TaskActivity[];
 }
 
 export interface Project {

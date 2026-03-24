@@ -14,8 +14,22 @@ import { KanbanBoard } from '@/components/KanbanBoard';
 import { ListView } from '@/components/ListView';
 import { TaskDetailSidebar } from '@/components/TaskDetailSidebar';
 import { TaskDialog } from '@/components/TaskDialog';
-import { Task, TaskAttachment, TaskStatus, DashboardData } from '@/types';
+import { Task, TaskActivity, TaskAttachment, TaskStatus, DashboardData, STATUS_CONFIG, ASSIGNEE_CONFIG } from '@/types';
 import { Plus, LayoutGrid, List, RefreshCw } from 'lucide-react';
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+const ALLOWED_FILE_TYPES = [
+  'image/png', 'image/jpeg', 'image/webp', 'application/pdf', 'text/plain',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword',
+];
+
+const makeActivity = (type: TaskActivity['type'], summary: string, detail?: string): TaskActivity => ({
+  id: `act-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+  type,
+  summary,
+  detail,
+  createdAt: new Date().toISOString(),
+});
 
 export default function Dashboard() {
   const [data, setData] = useState<DashboardData>({ projects: [], tasks: [] });
@@ -42,18 +56,14 @@ export default function Dashboard() {
   const saveData = async (newData: DashboardData) => {
     try {
       await fetch('/api/data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newData),
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newData),
       });
     } catch (error) {
       console.error('Failed to save data:', error);
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
   const upsertTasks = (updatedTasks: Task[]) => {
     const newData = { ...data, tasks: updatedTasks };
@@ -66,55 +76,43 @@ export default function Dashboard() {
   };
 
   const handleStatusChange = (taskId: string, status: TaskStatus) => {
-    const updatedTasks = data.tasks.map(t =>
-      t.id === taskId
-        ? { ...t, status, updatedAt: new Date().toISOString() }
-        : t
-    );
+    const now = new Date().toISOString();
+    const updatedTasks = data.tasks.map(t => {
+      if (t.id !== taskId) return t;
+      return {
+        ...t,
+        status,
+        updatedAt: now,
+        activity: [...(t.activity ?? []), makeActivity('status-changed', 'Status changed', `${STATUS_CONFIG[t.status].label} → ${STATUS_CONFIG[status].label}`)],
+      };
+    });
     upsertTasks(updatedTasks);
   };
 
-  const handleEdit = (task: Task) => {
-    setEditingTask(task);
-    setIsDialogOpen(true);
-  };
-
-  const handleDelete = (taskId: string) => {
-    const updatedTasks = data.tasks.filter(t => t.id !== taskId);
-    upsertTasks(updatedTasks);
-  };
-
-  const handleAddTask = (status: TaskStatus) => {
-    setEditingTask(null);
-    setDefaultStatus(status);
-    setIsDialogOpen(true);
-  };
+  const handleEdit = (task: Task) => { setEditingTask(task); setIsDialogOpen(true); };
+  const handleDelete = (taskId: string) => upsertTasks(data.tasks.filter(t => t.id !== taskId));
+  const handleAddTask = (status: TaskStatus) => { setEditingTask(null); setDefaultStatus(status); setIsDialogOpen(true); };
 
   const handleSaveTask = (taskData: Partial<Task> & { id?: string }) => {
     const now = new Date().toISOString();
-
     if (taskData.id) {
-      const updatedTasks = data.tasks.map(t =>
-        t.id === taskData.id
-          ? { ...t, ...taskData, updatedAt: now }
-          : t
-      );
+      const updatedTasks = data.tasks.map(t => {
+        if (t.id !== taskData.id) return t;
+        const activity = [...(t.activity ?? []), makeActivity('updated', 'Task details updated')];
+        if (t.assignee !== taskData.assignee) {
+          const from = t.assignee ? ASSIGNEE_CONFIG[t.assignee].label : 'Unassigned';
+          const to = taskData.assignee ? ASSIGNEE_CONFIG[taskData.assignee].label : 'Unassigned';
+          activity.push(makeActivity('assignee-changed', 'Assignee changed', `${from} → ${to}`));
+        }
+        return { ...t, ...taskData, updatedAt: now, activity };
+      });
       upsertTasks(updatedTasks);
     } else {
       const newTask: Task = {
         id: `task-${Date.now()}`,
-        title: taskData.title!,
-        description: taskData.description,
-        status: taskData.status!,
-        priority: taskData.priority!,
-        projectId: taskData.projectId!,
-        assignee: taskData.assignee ?? null,
-        dueDate: taskData.dueDate,
-        tags: taskData.tags,
-        notes: [],
-        attachments: [],
-        createdAt: now,
-        updatedAt: now,
+        title: taskData.title!, description: taskData.description, status: taskData.status!, priority: taskData.priority!,
+        projectId: taskData.projectId!, assignee: taskData.assignee ?? null, dueDate: taskData.dueDate, tags: taskData.tags,
+        notes: [], attachments: [], activity: [makeActivity('created', 'Task created')], createdAt: now, updatedAt: now,
       };
       upsertTasks([...data.tasks, newTask]);
     }
@@ -122,57 +120,48 @@ export default function Dashboard() {
 
   const handleAddNote = (taskId: string, body: string) => {
     const now = new Date().toISOString();
-    const updatedTasks = data.tasks.map((t) =>
-      t.id === taskId
-        ? {
-            ...t,
-            notes: [
-              ...(t.notes ?? []),
-              { id: `note-${Date.now()}`, body, createdAt: now, author: 'gideon' },
-            ],
-            updatedAt: now,
-          }
-        : t
-    );
+    const updatedTasks = data.tasks.map((t) => t.id === taskId ? {
+      ...t,
+      notes: [...(t.notes ?? []), { id: `note-${Date.now()}`, body, createdAt: now, author: 'gideon' }],
+      activity: [...(t.activity ?? []), makeActivity('note-added', 'Note added', body)],
+      updatedAt: now,
+    } : t);
     upsertTasks(updatedTasks);
   };
 
   const handleAddAttachments = async (taskId: string, files: FileList) => {
     const now = new Date().toISOString();
+    const accepted = Array.from(files).filter((file) => file.size <= MAX_FILE_SIZE && ALLOWED_FILE_TYPES.includes(file.type || ''));
+    if (accepted.length === 0) {
+      alert('No files uploaded. Allowed: PNG/JPG/WEBP/PDF/TXT/DOC/DOCX up to 10MB each.');
+      return;
+    }
+
     const toAttachment = (file: File): Promise<TaskAttachment> => new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onload = () => {
-        resolve({
-          id: `att-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-          name: file.name,
-          mimeType: file.type || 'application/octet-stream',
-          size: file.size,
-          createdAt: now,
-          dataUrl: typeof reader.result === 'string' ? reader.result : undefined,
-        });
-      };
+      reader.onload = () => resolve({
+        id: `att-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        name: file.name,
+        mimeType: file.type || 'application/octet-stream',
+        size: file.size,
+        createdAt: now,
+        dataUrl: typeof reader.result === 'string' ? reader.result : undefined,
+      });
       reader.readAsDataURL(file);
     });
 
-    const attachments = await Promise.all(Array.from(files).map(toAttachment));
-    const updatedTasks = data.tasks.map((t) =>
-      t.id === taskId
-        ? {
-            ...t,
-            attachments: [...(t.attachments ?? []), ...attachments],
-            updatedAt: now,
-          }
-        : t
-    );
+    const attachments = await Promise.all(accepted.map(toAttachment));
+    const updatedTasks = data.tasks.map((t) => t.id === taskId ? {
+      ...t,
+      attachments: [...(t.attachments ?? []), ...attachments],
+      activity: [...(t.activity ?? []), ...attachments.map((a) => makeActivity('file-uploaded', 'File uploaded', `${a.name} (${Math.round(a.size / 1024)} KB)`))],
+      updatedAt: now,
+    } : t);
     upsertTasks(updatedTasks);
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    );
+    return <div className="min-h-screen flex items-center justify-center"><RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" /></div>;
   }
 
   const activeFilter = filterProjectId === 'all' ? undefined : filterProjectId;
@@ -183,56 +172,28 @@ export default function Dashboard() {
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex flex-col gap-3 sm:hidden">
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-xl font-bold">relay.</h1>
-                <p className="text-xs text-muted-foreground">Project Dashboard</p>
-              </div>
-              <Button size="sm" onClick={() => handleAddTask('todo')}>
-                <Plus className="h-4 w-4" />
-              </Button>
+              <div><h1 className="text-xl font-bold">relay.</h1><p className="text-xs text-muted-foreground">Project Dashboard</p></div>
+              <Button size="sm" onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4" /></Button>
             </div>
             <div className="flex items-center gap-2">
               <Select value={filterProjectId} onValueChange={setFilterProjectId}>
-                <SelectTrigger className="flex-1 h-9 text-sm">
-                  <SelectValue placeholder="All Projects" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Projects</SelectItem>
-                  {data.projects.map((project) => (
-                    <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>
-                  ))}
-                </SelectContent>
+                <SelectTrigger className="flex-1 h-9 text-sm"><SelectValue placeholder="All Projects" /></SelectTrigger>
+                <SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent>
               </Select>
               <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}>
-                <TabsList className="h-9">
-                  <TabsTrigger value="kanban" className="px-2.5"><LayoutGrid className="h-4 w-4" /></TabsTrigger>
-                  <TabsTrigger value="list" className="px-2.5"><List className="h-4 w-4" /></TabsTrigger>
-                </TabsList>
+                <TabsList className="h-9"><TabsTrigger value="kanban" className="px-2.5"><LayoutGrid className="h-4 w-4" /></TabsTrigger><TabsTrigger value="list" className="px-2.5"><List className="h-4 w-4" /></TabsTrigger></TabsList>
               </Tabs>
             </div>
           </div>
 
           <div className="hidden sm:flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">relay.</h1>
-              <p className="text-sm text-muted-foreground">Project Dashboard</p>
-            </div>
+            <div><h1 className="text-2xl font-bold">relay.</h1><p className="text-sm text-muted-foreground">Project Dashboard</p></div>
             <div className="flex items-center gap-3">
               <Select value={filterProjectId} onValueChange={setFilterProjectId}>
                 <SelectTrigger className="w-48"><SelectValue placeholder="All Projects" /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Projects</SelectItem>
-                  {data.projects.map((project) => (
-                    <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>
-                  ))}
-                </SelectContent>
+                <SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent>
               </Select>
-              <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}>
-                <TabsList>
-                  <TabsTrigger value="kanban" className="px-3"><LayoutGrid className="h-4 w-4" /></TabsTrigger>
-                  <TabsTrigger value="list" className="px-3"><List className="h-4 w-4" /></TabsTrigger>
-                </TabsList>
-              </Tabs>
+              <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}><TabsList><TabsTrigger value="kanban" className="px-3"><LayoutGrid className="h-4 w-4" /></TabsTrigger><TabsTrigger value="list" className="px-3"><List className="h-4 w-4" /></TabsTrigger></TabsList></Tabs>
               <Button onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New Task</Button>
             </div>
           </div>
@@ -240,17 +201,12 @@ export default function Dashboard() {
       </header>
 
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
-        {view === 'kanban' ? (
-          <KanbanBoard tasks={data.tasks} projects={data.projects} onStatusChange={handleStatusChange} onEdit={handleEdit} onDelete={handleDelete} onAddTask={handleAddTask} filterProjectId={activeFilter} />
-        ) : (
-          <ListView tasks={data.tasks} projects={data.projects} onStatusChange={handleStatusChange} onEdit={handleEdit} onDelete={handleDelete} onOpenTask={setActiveTask} filterProjectId={activeFilter} />
-        )}
+        {view === 'kanban'
+          ? <KanbanBoard tasks={data.tasks} projects={data.projects} onStatusChange={handleStatusChange} onEdit={handleEdit} onDelete={handleDelete} onAddTask={handleAddTask} onOpenTask={setActiveTask} filterProjectId={activeFilter} />
+          : <ListView tasks={data.tasks} projects={data.projects} onStatusChange={handleStatusChange} onEdit={handleEdit} onDelete={handleDelete} onOpenTask={setActiveTask} filterProjectId={activeFilter} />}
       </main>
 
-      {activeTask && (
-        <TaskDetailSidebar task={activeTask} projects={data.projects} onClose={() => setActiveTask(null)} onAddNote={handleAddNote} onAddAttachments={handleAddAttachments} />
-      )}
-
+      {activeTask && <TaskDetailSidebar task={activeTask} projects={data.projects} onClose={() => setActiveTask(null)} onAddNote={handleAddNote} onAddAttachments={handleAddAttachments} />}
       <TaskDialog open={isDialogOpen} onClose={() => { setIsDialogOpen(false); setEditingTask(null); }} onSave={handleSaveTask} task={editingTask} projects={data.projects} defaultStatus={defaultStatus} />
     </div>
   );
