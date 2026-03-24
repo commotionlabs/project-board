@@ -226,19 +226,17 @@ export default function Dashboard() {
     <div className="min-h-screen bg-background">
       <header className="border-b sticky top-0 bg-background z-10">
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 space-y-3">
-          <div className="hidden sm:flex items-center justify-between">
+          <div className="hidden sm:flex items-center justify-between gap-3">
             <div><h1 className="text-2xl font-bold">relay.</h1><p className="text-sm text-muted-foreground">Project Dashboard</p></div>
-            <div className="flex items-center gap-2"><Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Command Palette</Button><Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save view</Button><Button onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New Task</Button></div>
-          </div>
-          <div className="grid gap-2">
             <div className="flex flex-wrap items-center gap-2">
               <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}><TabsList><TabsTrigger value="kanban" className="px-3"><LayoutGrid className="h-4 w-4" /></TabsTrigger><TabsTrigger value="list" className="px-3"><List className="h-4 w-4" /></TabsTrigger></TabsList></Tabs>
-              <Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger className="min-w-[180px]"><SelectValue placeholder="Saved views" /></SelectTrigger><SelectContent><SelectItem value="none">No saved view</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select>
-              <div className="ml-auto flex items-center gap-2">
-                <Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Command view</Button>
-                <Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save view</Button>
-              </div>
+              <Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger className="min-w-[190px]"><SelectValue placeholder="Saved views" /></SelectTrigger><SelectContent><SelectItem value="none">No saved view</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select>
+              <Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Command Palette</Button>
+              <Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save view</Button>
+              <Button onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New Task</Button>
             </div>
+          </div>
+          <div className="grid gap-2">
             <div className="relative w-full"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search tasks, tags, descriptions..." className="pl-8 w-full" /></div>
             <div className="w-full"><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger className="w-full"><SelectValue placeholder="All Projects" /></SelectTrigger><SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select></div>
             <div className="sm:hidden grid grid-cols-2 gap-2">
