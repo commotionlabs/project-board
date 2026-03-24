@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,7 +10,7 @@ import { ListView } from '@/components/ListView';
 import { TaskDetailSidebar } from '@/components/TaskDetailSidebar';
 import { TaskDialog } from '@/components/TaskDialog';
 import { Task, TaskActivity, TaskAttachment, TaskStatus, DashboardData, STATUS_CONFIG, SavedView, TaskTemplate } from '@/types';
-import { Plus, LayoutGrid, List, RefreshCw, Search, Bell, Command, Save, BarChart3 } from 'lucide-react';
+import { Plus, LayoutGrid, List, RefreshCw, Search, Bell, Command, Save, BarChart3, CheckCheck } from 'lucide-react';
 
 const makeActivity = (type: TaskActivity['type'], summary: string, detail?: string): TaskActivity => ({
   id: `act-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
@@ -51,6 +51,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [activeSavedViewId, setActiveSavedViewId] = useState('none');
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [paletteQuery, setPaletteQuery] = useState('');
+  const paletteInputRef = useRef<HTMLInputElement>(null);
 
   const fetchData = useCallback(async () => {
     try {
@@ -86,6 +88,12 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
+    if (!paletteOpen) return;
+    setPaletteQuery('');
+    requestAnimationFrame(() => paletteInputRef.current?.focus());
+  }, [paletteOpen]);
+
+  useEffect(() => {
     if (!('Notification' in window)) return;
     if (Notification.permission === 'default') Notification.requestPermission();
     const unread = (data.notifications ?? []).filter((n) => !n.read).slice(0, 2);
@@ -109,7 +117,15 @@ export default function Dashboard() {
   const handleStatusChange = (taskId: string, status: TaskStatus) => {
     const now = new Date().toISOString();
     const updatedTasks = data.tasks.map(t => t.id !== taskId ? t : { ...t, status, updatedAt: now, activity: [...(t.activity ?? []), makeActivity('status-changed', 'Status changed', `${STATUS_CONFIG[t.status].label} → ${STATUS_CONFIG[status].label}`)] });
-    upsertTasks(updatedTasks, `Changed task status to ${STATUS_CONFIG[status].label}`, taskId);
+    const notifications = [...(data.notifications ?? [])];
+    const previous = data.tasks.find((t) => t.id === taskId);
+    if (previous && previous.status !== 'done' && status === 'done') {
+      data.tasks.filter((t) => (t.dependencies ?? []).includes(taskId) && t.status !== 'done').forEach((t) => {
+        notifications.unshift({ id: `notif-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, kind: 'dependency-unblocked', title: 'Task unblocked', body: `${t.title} is now unblocked because ${previous.title} was completed.`, createdAt: now, taskId: t.id, read: false });
+      });
+    }
+    saveData(withWorkspaceActivity({ ...data, tasks: updatedTasks, notifications }, `Changed task status to ${STATUS_CONFIG[status].label}`, taskId));
+    if (activeTask) setActiveTask(updatedTasks.find(t => t.id === activeTask.id) ?? null);
   };
 
   const handleEdit = (task: Task) => { setEditingTask(task); setIsDialogOpen(true); };
@@ -172,6 +188,14 @@ export default function Dashboard() {
     upsertTasks(updatedTasks, `Uploaded ${uploaded.length} file(s)`, taskId);
   };
 
+  const markNotificationRead = (id: string, read = true) => {
+    saveData({ ...data, notifications: (data.notifications ?? []).map((n) => n.id === id ? { ...n, read } : n) });
+  };
+
+  const markAllNotificationsRead = () => {
+    saveData({ ...data, notifications: (data.notifications ?? []).map((n) => ({ ...n, read: true })) });
+  };
+
   const saveCurrentView = () => {
     const name = prompt('Name this view');
     if (!name) return;
@@ -215,13 +239,13 @@ export default function Dashboard() {
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4">
         {(data.templates ?? []).length > 0 && <div className="border rounded p-3"><p className="text-sm font-medium mb-2">Templates</p><div className="flex flex-wrap gap-2">{data.templates!.map((t) => <Button key={t.id} variant="outline" size="sm" onClick={() => createFromTemplate(t.id)}>{t.name}</Button>)}</div></div>}
         {view === 'kanban' ? <KanbanBoard tasks={visibleTasks} projects={data.projects} onStatusChange={handleStatusChange} onEdit={handleEdit} onDelete={handleDelete} onAddTask={handleAddTask} onOpenTask={setActiveTask} /> : <ListView tasks={visibleTasks} projects={data.projects} onStatusChange={handleStatusChange} onEdit={handleEdit} onDelete={handleDelete} onOpenTask={setActiveTask} />}
-        <div className="grid sm:grid-cols-2 gap-4"><div className="border rounded p-3"><h3 className="font-medium mb-2">Workspace activity</h3><div className="space-y-1 max-h-40 overflow-auto text-sm">{(data.activityFeed ?? []).slice(0, 20).map((a) => <div key={a.id} className="border rounded px-2 py-1">{a.summary} <span className="text-muted-foreground text-xs">{new Date(a.createdAt).toLocaleString()}</span></div>)}</div></div><div className="border rounded p-3"><h3 className="font-medium mb-2">Notifications</h3><div className="space-y-1 max-h-40 overflow-auto text-sm">{(data.notifications ?? []).slice(0, 20).map((n) => <div key={n.id} className={`border rounded px-2 py-1 ${n.read ? '' : 'bg-blue-50'}`}>{n.title}: {n.body}</div>)}</div></div></div>
+        <div className="grid sm:grid-cols-2 gap-4"><div className="border rounded p-3"><h3 className="font-medium mb-2">Workspace activity</h3><div className="space-y-1 max-h-40 overflow-auto text-sm">{(data.activityFeed ?? []).slice(0, 20).map((a) => <div key={a.id} className="border rounded px-2 py-1">{a.summary} <span className="text-muted-foreground text-xs">{new Date(a.createdAt).toLocaleString()}</span></div>)}</div></div><div className="border rounded p-3"><div className="flex items-center justify-between mb-2"><h3 className="font-medium">Notifications</h3><Button variant="ghost" size="sm" onClick={markAllNotificationsRead}><CheckCheck className="h-4 w-4 mr-1" />Mark all</Button></div><div className="space-y-1 max-h-40 overflow-auto text-sm">{(data.notifications ?? []).slice(0, 20).map((n) => <button key={n.id} onClick={() => markNotificationRead(n.id, !n.read)} className={`w-full text-left border rounded px-2 py-1 ${n.read ? '' : 'bg-blue-50'}`}>{n.title}: {n.body}</button>)}</div></div></div>
       </main>
 
       {activeTask && <TaskDetailSidebar task={activeTask} projects={data.projects} allTasks={data.tasks} onClose={() => setActiveTask(null)} onAddComment={handleAddComment} onAddDependency={handleAddDependency} onAddAttachments={handleAddAttachments} />}
       <TaskDialog open={isDialogOpen} onClose={() => { setIsDialogOpen(false); setEditingTask(null); }} onSave={handleSaveTask} task={editingTask} projects={data.projects} defaultStatus={defaultStatus} />
 
-      {paletteOpen && <div className="fixed inset-0 bg-black/30 flex items-start justify-center pt-24 z-50" onClick={() => setPaletteOpen(false)}><div className="bg-background w-[95%] max-w-xl border rounded p-3" onClick={(e) => e.stopPropagation()}><p className="text-sm font-medium mb-2">Command Palette (Ctrl/Cmd+K)</p><div className="space-y-1 max-h-80 overflow-auto text-sm"><button className="w-full text-left border rounded px-2 py-1" onClick={() => { setIsDialogOpen(true); setPaletteOpen(false); }}>+ New task</button><button className="w-full text-left border rounded px-2 py-1" onClick={() => { setView(view === 'kanban' ? 'list' : 'kanban'); setPaletteOpen(false); }}>Toggle view</button>{(data.savedViews ?? []).map((sv) => <button key={sv.id} className="w-full text-left border rounded px-2 py-1" onClick={() => { setActiveSavedViewId(sv.id); setPaletteOpen(false); }}>Open view: {sv.name}</button>)}{data.tasks.slice(0, 20).map((t) => <button key={t.id} className="w-full text-left border rounded px-2 py-1" onClick={() => { setActiveTask(t); setPaletteOpen(false); }}>{t.title}</button>)}</div></div></div>}
+      {paletteOpen && <div className="fixed inset-0 bg-black/30 flex items-start justify-center pt-24 z-50" onClick={() => setPaletteOpen(false)}><div className="bg-background w-[95%] max-w-xl border rounded p-3" onClick={(e) => e.stopPropagation()}><p className="text-sm font-medium mb-2">Command Palette (Ctrl/Cmd+K)</p><Input ref={paletteInputRef} value={paletteQuery} onChange={(e) => { setPaletteQuery(e.target.value); }} placeholder="Search commands, views, tasks..." className="mb-2" /><div className="space-y-1 max-h-80 overflow-auto text-sm"><button className="w-full text-left border rounded px-2 py-1" onClick={() => { setIsDialogOpen(true); setPaletteOpen(false); }}>+ New task</button><button className="w-full text-left border rounded px-2 py-1" onClick={() => { setView(view === 'kanban' ? 'list' : 'kanban'); setPaletteOpen(false); }}>Toggle view</button>{(data.savedViews ?? []).filter((sv) => (`open view ${sv.name}`).toLowerCase().includes(paletteQuery.toLowerCase())).map((sv) => <button key={sv.id} className="w-full text-left border rounded px-2 py-1" onClick={() => { setActiveSavedViewId(sv.id); setPaletteOpen(false); }}>Open view: {sv.name}</button>)}{data.tasks.filter((t) => `${t.title} ${t.description ?? ''} ${(t.tags ?? []).join(' ')}`.toLowerCase().includes(paletteQuery.toLowerCase())).slice(0, 20).map((t) => <button key={t.id} className="w-full text-left border rounded px-2 py-1" onClick={() => { setActiveTask(t); setPaletteOpen(false); }}>{t.title}</button>)}</div></div></div>}
     </div>
   );
 }

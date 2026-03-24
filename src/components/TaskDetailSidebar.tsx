@@ -94,7 +94,7 @@ export function TaskDetailSidebar({ task, projects, allTasks, onClose, onAddComm
                   <p className="text-[11px] text-muted-foreground">{formatBytes(file.size)} · {new Date(file.createdAt).toLocaleString()}</p>
                   <div className="mt-2 flex gap-2">
                     <Button asChild size="sm" variant="outline"><a href={`/api/attachments/${task.id}/${file.id}`} target="_blank" rel="noreferrer"><Eye className="h-3.5 w-3.5 mr-1" />Preview</a></Button>
-                    <Button asChild size="sm" variant="outline"><a href={`/api/attachments/${task.id}/${file.id}`} download={file.name}><Download className="h-3.5 w-3.5 mr-1" />Download</a></Button>
+                    <Button asChild size="sm" variant="outline"><a href={`/api/attachments/${task.id}/${file.id}?download=1`} download={file.name}><Download className="h-3.5 w-3.5 mr-1" />Download</a></Button>
                   </div>
                 </div>
               ))}
