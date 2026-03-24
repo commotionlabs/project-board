@@ -4,6 +4,22 @@ export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
 
 export type TaskAssignee = 'forge' | 'arcus' | 'gideon' | null;
 
+export interface TaskNote {
+  id: string;
+  body: string;
+  createdAt: string;
+  author?: string;
+}
+
+export interface TaskAttachment {
+  id: string;
+  name: string;
+  mimeType: string;
+  size: number;
+  createdAt: string;
+  dataUrl?: string;
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -16,6 +32,8 @@ export interface Task {
   createdAt: string;
   updatedAt: string;
   tags?: string[];
+  notes?: TaskNote[];
+  attachments?: TaskAttachment[];
 }
 
 export interface Project {
