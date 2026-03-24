@@ -10,7 +10,7 @@ import { ListView } from '@/components/ListView';
 import { TaskDetailSidebar } from '@/components/TaskDetailSidebar';
 import { TaskDialog } from '@/components/TaskDialog';
 import { Task, TaskActivity, TaskAttachment, TaskStatus, DashboardData, STATUS_CONFIG, SavedView, TaskTemplate } from '@/types';
-import { Plus, LayoutGrid, List, RefreshCw, Search, Bell, Command, Save, BarChart3, CheckCheck } from 'lucide-react';
+import { Plus, LayoutGrid, List, RefreshCw, Search, Bell, Command, Save, BarChart3, CheckCheck, ChevronUp, ChevronDown } from 'lucide-react';
 
 const makeActivity = (type: TaskActivity['type'], summary: string, detail?: string): TaskActivity => ({
   id: `act-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
@@ -51,6 +51,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [activeSavedViewId, setActiveSavedViewId] = useState('none');
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [headerExpanded, setHeaderExpanded] = useState(true);
   const [paletteQuery, setPaletteQuery] = useState('');
   const paletteInputRef = useRef<HTMLInputElement>(null);
 
@@ -233,9 +234,12 @@ export default function Dashboard() {
               <Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger className="min-w-[190px]"><SelectValue placeholder="Saved views" /></SelectTrigger><SelectContent><SelectItem value="none">No saved view</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select>
               <Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Command Palette</Button>
               <Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save view</Button>
+              <Button variant="outline" onClick={() => setHeaderExpanded((v) => !v)}>{headerExpanded ? <ChevronUp className="h-4 w-4 mr-2" /> : <ChevronDown className="h-4 w-4 mr-2" />}{headerExpanded ? 'Hide panel' : 'Show panel'}</Button>
               <Button onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New Task</Button>
             </div>
           </div>
+          {headerExpanded && (
+          <>
           <div className="grid gap-2">
             <div className="relative w-full"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search tasks, tags, descriptions..." className="pl-8 w-full" /></div>
             <div className="w-full"><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger className="w-full"><SelectValue placeholder="All Projects" /></SelectTrigger><SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select></div>
@@ -246,6 +250,8 @@ export default function Dashboard() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm"><div className="border rounded p-2"><BarChart3 className="h-4 w-4 inline mr-1" />Overdue: <b>{metrics.overdue}</b></div><div className="border rounded p-2">Due soon: <b>{metrics.dueSoon}</b></div><div className="border rounded p-2">Blocked: <b>{metrics.blocked}</b></div><div className="border rounded p-2">Done: <b>{metrics.completed}</b></div></div>
           <div className="text-xs text-muted-foreground flex items-center justify-end gap-1"><Bell className="h-3 w-3" /> {(data.notifications ?? []).filter((n) => !n.read).length} unread</div>
+          </>
+          )}
         </div>
       </header>
 
