@@ -33,7 +33,7 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
     <>
       <div className="sm:hidden">
         <div className="flex items-center justify-between mb-4 bg-muted/50 rounded-lg p-2">
-          <Button variant="ghost" size="sm" onClick={() => setMobileColumnIndex(prev => Math.max(0, prev - 1))} disabled={mobileColumnIndex === 0} className="h-8 w-8 p-0">
+          <Button variant="ghost" size="sm" onClick={() => setMobileColumnIndex(prev => Math.max(0, prev - 1))} disabled={mobileColumnIndex === 0} className="h-10 w-10 p-0">
             <ChevronLeft className="h-4 w-4" />
           </Button>
 
@@ -43,7 +43,7 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
             <Badge variant="secondary" className="text-xs">{currentColumnTasks.length}</Badge>
           </div>
 
-          <Button variant="ghost" size="sm" onClick={() => setMobileColumnIndex(prev => Math.min(COLUMNS.length - 1, prev + 1))} disabled={mobileColumnIndex === COLUMNS.length - 1} className="h-8 w-8 p-0">
+          <Button variant="ghost" size="sm" onClick={() => setMobileColumnIndex(prev => Math.min(COLUMNS.length - 1, prev + 1))} disabled={mobileColumnIndex === COLUMNS.length - 1} className="h-10 w-10 p-0">
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
@@ -57,7 +57,7 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
           })}
         </div>
 
-        <Button variant="outline" size="sm" className="w-full mb-3" onClick={() => onAddTask(currentStatus)}>
+        <Button variant="outline" size="sm" className="w-full mb-3 h-10" onClick={() => onAddTask(currentStatus)}>
           <Plus className="h-4 w-4 mr-2" /> Add to {currentConfig.label}
         </Button>
 

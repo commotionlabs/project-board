@@ -63,7 +63,7 @@ export function ListView({ tasks, projects, onStatusChange, onEdit, onDelete, on
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => e.stopPropagation()}>
+          <Button variant="ghost" size="sm" className="h-10 w-10 p-0" onClick={(e) => e.stopPropagation()}>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -112,7 +112,7 @@ export function ListView({ tasks, projects, onStatusChange, onEdit, onDelete, on
           const project = getProjectById(task.projectId);
           return (
             <Card key={task.id} className="overflow-hidden" onClick={() => onOpenTask?.(task)}>
-              <CardContent className="p-3">
+              <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm truncate">{task.title}</p>

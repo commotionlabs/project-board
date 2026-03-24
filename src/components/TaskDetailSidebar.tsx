@@ -34,7 +34,7 @@ export function TaskDetailSidebar({ task, projects, allTasks, onClose, onAddComm
   const blockers = (task.dependencies ?? []).map((id) => allTasks.find((t) => t.id === id)).filter(Boolean) as Task[];
 
   return (
-    <aside className="fixed right-0 top-0 z-40 h-screen w-full border-l bg-background shadow-xl sm:w-[460px]">
+    <aside className="fixed inset-x-0 bottom-0 top-auto z-40 h-[88vh] w-full rounded-t-2xl border bg-background shadow-2xl sm:inset-y-0 sm:left-auto sm:right-0 sm:top-0 sm:h-screen sm:w-[460px] sm:rounded-none sm:border-l">
       <div className="flex h-full flex-col">
         <div className="flex items-start justify-between border-b px-4 py-3">
           <div><h2 className="text-base font-semibold">{task.title}</h2><p className="text-xs text-muted-foreground">Task details</p></div>
