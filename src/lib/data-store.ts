@@ -3,8 +3,11 @@ import path from 'path';
 import type { DashboardData, Task, TaskAttachment, TaskRecurrence } from '@/types';
 
 export const DATA_FILE = path.join(process.cwd(), 'data', 'dashboard.json');
+export const DB_FILE = path.join(process.cwd(), 'data', 'dashboard.sqlite');
 export const UPLOAD_DIR = path.join(process.cwd(), 'data', 'uploads');
 export const BACKUP_DIR = path.join(process.cwd(), 'data', 'backups');
+
+const DASHBOARD_KEY = 'dashboard_data';
 
 const ensureTask = (task: Task): Task => ({
   ...task,
@@ -25,15 +28,28 @@ export const normalizeDashboardData = (raw: DashboardData): DashboardData => ({
   notifications: raw.notifications ?? [],
 });
 
-export async function loadDashboardData(): Promise<DashboardData> {
+const getDb = async () => {
+  const sqlite = await import('node:sqlite');
+  await fs.mkdir(path.dirname(DB_FILE), { recursive: true });
+  const db = new sqlite.DatabaseSync(DB_FILE);
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS kv_store (
+      k TEXT PRIMARY KEY,
+      v TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `);
+  return db;
+};
+
+const readFromJsonFallback = async (): Promise<DashboardData | null> => {
   try {
     const data = await fs.readFile(DATA_FILE, 'utf-8');
-    const parsed = JSON.parse(data) as DashboardData;
-    return normalizeDashboardData(parsed);
+    return normalizeDashboardData(JSON.parse(data) as DashboardData);
   } catch {
-    return normalizeDashboardData({ projects: [], tasks: [] });
+    return null;
   }
-}
+};
 
 const writeSnapshot = async (payload: string) => {
   await fs.mkdir(BACKUP_DIR, { recursive: true });
@@ -46,15 +62,59 @@ const writeSnapshot = async (payload: string) => {
   await Promise.all(remove.map((f) => fs.unlink(path.join(BACKUP_DIR, f)).catch(() => {})));
 };
 
+const saveToSqlite = async (payload: string) => {
+  const db = await getDb();
+  try {
+    const stmt = db.prepare(`
+      INSERT INTO kv_store (k, v, updated_at)
+      VALUES (?, ?, ?)
+      ON CONFLICT(k) DO UPDATE SET
+        v=excluded.v,
+        updated_at=excluded.updated_at
+    `);
+    stmt.run(DASHBOARD_KEY, payload, new Date().toISOString());
+  } finally {
+    db.close();
+  }
+};
+
+export async function loadDashboardData(): Promise<DashboardData> {
+  const db = await getDb();
+  try {
+    const row = db.prepare('SELECT v FROM kv_store WHERE k = ?').get(DASHBOARD_KEY) as { v?: string } | undefined;
+    if (row?.v) {
+      return normalizeDashboardData(JSON.parse(row.v) as DashboardData);
+    }
+  } catch (error) {
+    console.error('SQLite load failed, trying JSON fallback:', error);
+  } finally {
+    db.close();
+  }
+
+  const fallback = await readFromJsonFallback();
+  if (fallback) {
+    const payload = JSON.stringify(fallback, null, 2);
+    await saveToSqlite(payload);
+    return fallback;
+  }
+
+  return normalizeDashboardData({ projects: [], tasks: [] });
+}
+
 export async function saveDashboardData(data: DashboardData): Promise<void> {
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
   const normalized = normalizeDashboardData(data);
   const payload = JSON.stringify(normalized, null, 2);
+
   try {
     await writeSnapshot(payload);
   } catch (e) {
     console.error('Snapshot write failed:', e);
   }
+
+  await saveToSqlite(payload);
+
+  // Keep JSON mirror for human-readable recovery/debugging.
+  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
   await fs.writeFile(DATA_FILE, payload);
 }
 
