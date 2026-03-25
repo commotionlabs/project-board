@@ -4,6 +4,17 @@ export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
 
 export type TaskAssignee = 'forge' | 'arcus' | 'gideon' | null;
 
+export type QuickTaskFilter =
+  | 'all'
+  | 'overdue'
+  | 'due-soon'
+  | 'blocked'
+  | 'done'
+  | 'in-progress'
+  | 'todo'
+  | 'backlog'
+  | 'review';
+
 export interface TaskNote {
   id: string;
   body: string;
@@ -100,6 +111,7 @@ export interface SavedView {
   assignee?: TaskAssignee;
   overdueOnly?: boolean;
   dueSoonOnly?: boolean;
+  quickFilter?: QuickTaskFilter;
   createdAt: string;
 }
 

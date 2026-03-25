@@ -9,7 +9,7 @@ import { KanbanBoard } from '@/components/KanbanBoard';
 import { ListView } from '@/components/ListView';
 import { TaskDetailSidebar } from '@/components/TaskDetailSidebar';
 import { TaskDialog } from '@/components/TaskDialog';
-import { Task, TaskActivity, TaskAttachment, TaskStatus, DashboardData, STATUS_CONFIG, SavedView, TaskTemplate } from '@/types';
+import { Task, TaskActivity, TaskAttachment, TaskStatus, DashboardData, STATUS_CONFIG, SavedView, TaskTemplate, QuickTaskFilter } from '@/types';
 import { Plus, LayoutGrid, List, RefreshCw, Search, Bell, Command, Save, BarChart3, CheckCheck } from 'lucide-react';
 
 const makeActivity = (type: TaskActivity['type'], summary: string, detail?: string): TaskActivity => ({
@@ -25,16 +25,7 @@ const dayDiff = (iso?: string) => {
   return Math.floor((new Date(iso).getTime() - Date.now()) / 86400000);
 };
 
-type QuickFilter =
-  | 'all'
-  | 'overdue'
-  | 'due-soon'
-  | 'blocked'
-  | 'done'
-  | 'in-progress'
-  | 'todo'
-  | 'backlog'
-  | 'review';
+type QuickFilter = QuickTaskFilter;
 
 const isTaskBlocked = (task: Task, allTasks: Task[]) =>
   (task.dependencies ?? []).some((id) => allTasks.find((x) => x.id === id && x.status !== 'done'));
@@ -214,7 +205,7 @@ export default function Dashboard() {
   const saveCurrentView = () => {
     const name = prompt('Name this view');
     if (!name) return;
-    const saved: SavedView = { id: `view-${Date.now()}`, name, query, projectId: filterProjectId === 'all' ? undefined : filterProjectId, createdAt: new Date().toISOString() };
+    const saved: SavedView = { id: `view-${Date.now()}`, name, query, projectId: filterProjectId === 'all' ? undefined : filterProjectId, quickFilter: quickFilter === 'all' ? undefined : quickFilter, createdAt: new Date().toISOString() };
     saveData(withWorkspaceActivity({ ...data, savedViews: [saved, ...(data.savedViews ?? [])] }, `Saved view: ${name}`));
   };
 
@@ -225,6 +216,10 @@ export default function Dashboard() {
   };
 
   const selectedView = useMemo(() => (data.savedViews ?? []).find((v) => v.id === activeSavedViewId), [data.savedViews, activeSavedViewId]);
+
+  useEffect(() => {
+    setQuickFilter(selectedView?.quickFilter ?? 'all');
+  }, [selectedView]);
   const searched = useMemo(() => applySavedView(data.tasks, selectedView, query), [data.tasks, selectedView, query]);
   const projectFiltered = filterProjectId === 'all' ? searched : searched.filter((t) => t.projectId === filterProjectId);
   const visibleTasks = useMemo(() => {
