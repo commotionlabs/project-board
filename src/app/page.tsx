@@ -69,7 +69,7 @@ export default function Dashboard() {
   const [quickFilters, setQuickFilters] = useState<QuickFilter[]>([]);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [paletteQuery, setPaletteQuery] = useState('');
-  const [showQuickFilters, setShowQuickFilters] = useState(true);
+  const [showControls, setShowControls] = useState(true);
   const paletteInputRef = useRef<HTMLInputElement>(null);
 
   const fetchData = useCallback(async () => {
@@ -285,14 +285,14 @@ export default function Dashboard() {
               <Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Command Palette</Button>
               <Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger><SelectValue placeholder="Saved views" /></SelectTrigger><SelectContent><SelectItem value="none">No saved view</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select>
               <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}><TabsList><TabsTrigger value="kanban" className="px-3"><LayoutGrid className="h-4 w-4" /></TabsTrigger><TabsTrigger value="list" className="px-3"><List className="h-4 w-4" /></TabsTrigger></TabsList></Tabs>
-              <Button variant="outline" onClick={() => setShowQuickFilters((v) => !v)}>{showQuickFilters ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}{showQuickFilters ? 'Hide filters' : 'Show filters'}</Button>
+              <Button variant="outline" onClick={() => setShowControls((v) => !v)}>{showControls ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}{showControls ? 'Hide' : 'Show'}</Button>
               <Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save view</Button>
               <Button onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New Task</Button>
               <div className="text-xs text-muted-foreground inline-flex items-center gap-1 border rounded px-2 py-1"><Bell className="h-3 w-3" /> {(data.notifications ?? []).filter((n) => !n.read).length}</div>
             </div>
           </div>
-          <div className="grid sm:grid-cols-4 gap-2"><div className="sm:col-span-2 relative"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search tasks, tags, descriptions..." className="pl-8" /></div><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger><SelectValue placeholder="All Projects" /></SelectTrigger><SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select><Button variant="outline" onClick={() => setQuickFilters([])} className="justify-start">{quickFilters.length ? `${quickFilters.length} filters` : 'All tasks'}</Button></div>
-          {showQuickFilters && <div className="flex flex-wrap gap-2">
+          {showControls && <div className="grid sm:grid-cols-4 gap-2"><div className="sm:col-span-2 relative"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search tasks, tags, descriptions..." className="pl-8" /></div><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger><SelectValue placeholder="All Projects" /></SelectTrigger><SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select><Button variant="outline" onClick={() => setQuickFilters([])} className="justify-start">{quickFilters.length ? `${quickFilters.length} filters` : 'All tasks'}</Button></div>}
+          {showControls && <div className="flex flex-wrap gap-2">
             {QUICK_FILTER_OPTIONS.map((opt) => {
               const active = quickFilters.includes(opt.value);
               return (
@@ -310,7 +310,7 @@ export default function Dashboard() {
               <Button size="sm" variant="ghost" onClick={() => setQuickFilters([])}>Clear</Button>
             )}
           </div>}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm"><div className="border rounded p-2"><BarChart3 className="h-4 w-4 inline mr-1" />Overdue: <b>{metrics.overdue}</b></div><div className="border rounded p-2">Due soon: <b>{metrics.dueSoon}</b></div><div className="border rounded p-2">Blocked: <b>{metrics.blocked}</b></div><div className="border rounded p-2">Done: <b>{metrics.completed}</b></div></div>
+          {showControls && <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm"><div className="border rounded p-2"><BarChart3 className="h-4 w-4 inline mr-1" />Overdue: <b>{metrics.overdue}</b></div><div className="border rounded p-2">Due soon: <b>{metrics.dueSoon}</b></div><div className="border rounded p-2">Blocked: <b>{metrics.blocked}</b></div><div className="border rounded p-2">Done: <b>{metrics.completed}</b></div></div>}
         </div>
       </header>
 
