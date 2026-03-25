@@ -25,6 +25,20 @@ const dayDiff = (iso?: string) => {
   return Math.floor((new Date(iso).getTime() - Date.now()) / 86400000);
 };
 
+type QuickFilter =
+  | 'all'
+  | 'overdue'
+  | 'due-soon'
+  | 'blocked'
+  | 'done'
+  | 'in-progress'
+  | 'todo'
+  | 'backlog'
+  | 'review';
+
+const isTaskBlocked = (task: Task, allTasks: Task[]) =>
+  (task.dependencies ?? []).some((id) => allTasks.find((x) => x.id === id && x.status !== 'done'));
+
 const applySavedView = (tasks: Task[], view?: SavedView, q?: string) => {
   return tasks.filter((t) => {
     if (view?.projectId && t.projectId !== view.projectId) return false;
@@ -50,6 +64,7 @@ export default function Dashboard() {
   const [defaultStatus, setDefaultStatus] = useState<TaskStatus>('todo');
   const [loading, setLoading] = useState(true);
   const [activeSavedViewId, setActiveSavedViewId] = useState('none');
+  const [quickFilter, setQuickFilter] = useState<QuickFilter>('all');
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [paletteQuery, setPaletteQuery] = useState('');
   const paletteInputRef = useRef<HTMLInputElement>(null);
@@ -211,12 +226,24 @@ export default function Dashboard() {
 
   const selectedView = useMemo(() => (data.savedViews ?? []).find((v) => v.id === activeSavedViewId), [data.savedViews, activeSavedViewId]);
   const searched = useMemo(() => applySavedView(data.tasks, selectedView, query), [data.tasks, selectedView, query]);
-  const visibleTasks = filterProjectId === 'all' ? searched : searched.filter((t) => t.projectId === filterProjectId);
+  const projectFiltered = filterProjectId === 'all' ? searched : searched.filter((t) => t.projectId === filterProjectId);
+  const visibleTasks = useMemo(() => {
+    if (quickFilter === 'all') return projectFiltered;
+    if (quickFilter === 'overdue') return projectFiltered.filter((t) => t.status !== 'done' && (dayDiff(t.dueDate) ?? 99) < 0);
+    if (quickFilter === 'due-soon') return projectFiltered.filter((t) => t.status !== 'done' && (dayDiff(t.dueDate) ?? 99) >= 0 && (dayDiff(t.dueDate) ?? 99) <= 2);
+    if (quickFilter === 'blocked') return projectFiltered.filter((t) => isTaskBlocked(t, data.tasks));
+    if (quickFilter === 'done') return projectFiltered.filter((t) => t.status === 'done');
+    if (quickFilter === 'in-progress') return projectFiltered.filter((t) => t.status === 'in-progress');
+    if (quickFilter === 'todo') return projectFiltered.filter((t) => t.status === 'todo');
+    if (quickFilter === 'backlog') return projectFiltered.filter((t) => t.status === 'backlog');
+    if (quickFilter === 'review') return projectFiltered.filter((t) => t.status === 'review');
+    return projectFiltered;
+  }, [quickFilter, projectFiltered, data.tasks]);
   const metrics = useMemo(() => {
     const overdue = visibleTasks.filter((t) => t.status !== 'done' && (dayDiff(t.dueDate) ?? 99) < 0).length;
     const dueSoon = visibleTasks.filter((t) => t.status !== 'done' && (dayDiff(t.dueDate) ?? 99) >= 0 && (dayDiff(t.dueDate) ?? 99) <= 2).length;
     const completed = visibleTasks.filter((t) => t.status === 'done').length;
-    const blocked = visibleTasks.filter((t) => (t.dependencies ?? []).some((id) => data.tasks.find((x) => x.id === id && x.status !== 'done'))).length;
+    const blocked = visibleTasks.filter((t) => isTaskBlocked(t, data.tasks)).length;
     return { overdue, dueSoon, completed, blocked };
   }, [visibleTasks, data.tasks]);
 
@@ -230,7 +257,7 @@ export default function Dashboard() {
             <div><h1 className="text-2xl font-bold">relay.</h1><p className="text-sm text-muted-foreground">Project Dashboard</p></div>
             <div className="flex items-center gap-2"><Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Command Palette</Button><Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save view</Button><Button onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New Task</Button></div>
           </div>
-          <div className="grid sm:grid-cols-4 gap-2"><div className="sm:col-span-2 relative"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search tasks, tags, descriptions..." className="pl-8" /></div><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger><SelectValue placeholder="All Projects" /></SelectTrigger><SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select><Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger><SelectValue placeholder="Saved views" /></SelectTrigger><SelectContent><SelectItem value="none">No saved view</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select></div>
+          <div className="grid sm:grid-cols-5 gap-2"><div className="sm:col-span-2 relative"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search tasks, tags, descriptions..." className="pl-8" /></div><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger><SelectValue placeholder="All Projects" /></SelectTrigger><SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select><Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger><SelectValue placeholder="Saved views" /></SelectTrigger><SelectContent><SelectItem value="none">No saved view</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select><Select value={quickFilter} onValueChange={(v) => setQuickFilter(v as QuickFilter)}><SelectTrigger><SelectValue placeholder="Quick filter" /></SelectTrigger><SelectContent><SelectItem value="all">All tasks</SelectItem><SelectItem value="overdue">Overdue</SelectItem><SelectItem value="due-soon">Due soon</SelectItem><SelectItem value="blocked">Blocked</SelectItem><SelectItem value="in-progress">In Progress</SelectItem><SelectItem value="todo">To Do</SelectItem><SelectItem value="backlog">Backlog</SelectItem><SelectItem value="review">Review</SelectItem><SelectItem value="done">Done</SelectItem></SelectContent></Select></div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm"><div className="border rounded p-2"><BarChart3 className="h-4 w-4 inline mr-1" />Overdue: <b>{metrics.overdue}</b></div><div className="border rounded p-2">Due soon: <b>{metrics.dueSoon}</b></div><div className="border rounded p-2">Blocked: <b>{metrics.blocked}</b></div><div className="border rounded p-2">Done: <b>{metrics.completed}</b></div></div>
           <div className="flex items-center justify-between"><Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}><TabsList><TabsTrigger value="kanban" className="px-3"><LayoutGrid className="h-4 w-4" /></TabsTrigger><TabsTrigger value="list" className="px-3"><List className="h-4 w-4" /></TabsTrigger></TabsList></Tabs><div className="text-xs text-muted-foreground flex items-center gap-1"><Bell className="h-3 w-3" /> {(data.notifications ?? []).filter((n) => !n.read).length} unread</div></div>
         </div>
