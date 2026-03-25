@@ -111,7 +111,8 @@ export interface SavedView {
   assignee?: TaskAssignee;
   overdueOnly?: boolean;
   dueSoonOnly?: boolean;
-  quickFilter?: QuickTaskFilter;
+  quickFilter?: QuickTaskFilter; // backward compatibility
+  quickFilters?: QuickTaskFilter[];
   createdAt: string;
 }
 
