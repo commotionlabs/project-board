@@ -1,4 +1,5 @@
 {
+  "version": 2,
   "projects": [
     {
       "id": "commotion-labs",
@@ -33,7 +34,16 @@
       "assignee": null,
       "createdAt": "2026-01-28T00:00:00.000Z",
       "updatedAt": "2026-01-28T02:30:00.000Z",
-      "tags": ["infrastructure", "ai"]
+      "tags": [
+        "infrastructure",
+        "ai",
+        "legacy-import"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": []
     },
     {
       "id": "task-002",
@@ -45,7 +55,16 @@
       "assignee": null,
       "createdAt": "2026-01-28T02:58:00.000Z",
       "updatedAt": "2026-01-28T17:45:40.824Z",
-      "tags": ["dashboard", "tooling"]
+      "tags": [
+        "dashboard",
+        "tooling",
+        "legacy-import"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": []
     },
     {
       "id": "task-003",
@@ -57,7 +76,15 @@
       "assignee": "gideon",
       "createdAt": "2026-01-28T02:30:00.000Z",
       "updatedAt": "2026-02-02T16:22:00.000Z",
-      "tags": ["infrastructure"]
+      "tags": [
+        "infrastructure",
+        "legacy-import"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": []
     },
     {
       "id": "task-004",
@@ -69,7 +96,15 @@
       "assignee": "gideon",
       "createdAt": "2026-01-28T02:30:00.000Z",
       "updatedAt": "2026-01-29T13:57:26.772Z",
-      "tags": ["infrastructure"]
+      "tags": [
+        "infrastructure",
+        "legacy-import"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": []
     },
     {
       "id": "task-005",
@@ -81,7 +116,16 @@
       "assignee": "forge",
       "createdAt": "2026-01-30T17:16:00.000Z",
       "updatedAt": "2026-01-30T17:16:00.000Z",
-      "tags": ["development", "website"]
+      "tags": [
+        "development",
+        "website",
+        "legacy-import"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": []
     },
     {
       "id": "task-006",
@@ -93,7 +137,16 @@
       "assignee": null,
       "createdAt": "2026-01-30T17:16:00.000Z",
       "updatedAt": "2026-01-30T17:16:00.000Z",
-      "tags": ["development", "website"]
+      "tags": [
+        "development",
+        "website",
+        "legacy-import"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": []
     },
     {
       "id": "task-007",
@@ -105,7 +158,382 @@
       "assignee": "forge",
       "createdAt": "2026-02-02T15:56:00.000Z",
       "updatedAt": "2026-02-02T20:57:00.000Z",
-      "tags": ["development", "tooling"]
+      "tags": [
+        "development",
+        "tooling",
+        "legacy-import"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": []
+    },
+    {
+      "id": "task-rec-001",
+      "title": "Recover full project board dataset",
+      "description": "Restore missing tasks from any available source and validate counts.",
+      "status": "in-progress",
+      "priority": "urgent",
+      "projectId": "commotion-labs",
+      "assignee": "gideon",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "incident",
+        "recovery"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-001",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-002",
+      "title": "Postmortem: board data overwrite incident",
+      "description": "Document root cause, blast radius, and prevention actions.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": "gideon",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "incident",
+        "ops"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-002",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-003",
+      "title": "Verify stale-write guard in /api/data",
+      "description": "Confirm 409 rejection for suspiciously small writes and no false positives.",
+      "status": "review",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": "forge",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "backend",
+        "safety"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-003",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-004",
+      "title": "Validate auto-snapshot backups for dashboard saves",
+      "description": "Ensure data/backups snapshots are created and retention works.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": "forge",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "backup",
+        "safety"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-004",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-005",
+      "title": "Project board: quick filters (due soon/overdue/blocked/etc.)",
+      "description": "Implemented quick filters in dashboard UI.",
+      "status": "done",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": "forge",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "dashboard",
+        "filters"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-005",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-006",
+      "title": "Project board: persist quick filters in saved views",
+      "description": "Saved views restore selected quick filters.",
+      "status": "done",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": "forge",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "dashboard",
+        "filters"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-006",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-007",
+      "title": "Project board: multi-select quick filters",
+      "description": "Added chip-based multi-select filtering with clear action.",
+      "status": "done",
+      "priority": "high",
+      "projectId": "commotion-labs",
+      "assignee": "forge",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "dashboard",
+        "filters"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-007",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-008",
+      "title": "Finance app reliability check (service + logs)",
+      "description": "Verify finance service health and recurring errors.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "personal",
+      "assignee": "gideon",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "finance-app",
+        "ops"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-008",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-009",
+      "title": "Morning operator brief automation (6:30 AM)",
+      "description": "Keep daily pipeline/today/awareness/first-60 report accurate from board data.",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "personal",
+      "assignee": "gideon",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "automation",
+        "heartbeat"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-009",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-010",
+      "title": "Fix nightly backup notification command path",
+      "description": "Address openclaw command-not-found in backup notify script.",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "commotion-labs",
+      "assignee": "forge",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "backup",
+        "scripts"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-010",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-011",
+      "title": "Review strategic planning inbox materials",
+      "description": "Process pre-read package and convert to actionable items.",
+      "status": "in-progress",
+      "priority": "medium",
+      "projectId": "museum-initiatives",
+      "assignee": "gideon",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "planning"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-011",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
+    },
+    {
+      "id": "task-rec-012",
+      "title": "Rebuild high-priority carry-over tasks list",
+      "description": "Recreate yesterday carry-over priorities with verified due dates.",
+      "status": "todo",
+      "priority": "urgent",
+      "projectId": "personal",
+      "assignee": "gideon",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "updatedAt": "2026-03-25T16:04:34.397Z",
+      "tags": [
+        "recovered-draft",
+        "recovery",
+        "planning"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-rec-012",
+          "type": "created",
+          "summary": "Recovered from assistant reconstruction",
+          "createdAt": "2026-03-25T16:04:34.397Z",
+          "detail": "Best-effort reconstruction after data loss; verify details."
+        }
+      ]
     }
-  ]
+  ],
+  "templates": [],
+  "savedViews": [
+    {
+      "id": "view-recovered-draft",
+      "name": "Recovered Draft (Verify)",
+      "query": "recovered",
+      "createdAt": "2026-03-25T16:04:34.397Z"
+    }
+  ],
+  "activityFeed": [
+    {
+      "id": "wa-recovery-1774454674397",
+      "createdAt": "2026-03-25T16:04:34.397Z",
+      "actor": "system",
+      "type": "recovery",
+      "summary": "Reconstructed recovery draft tasks after data-loss incident."
+    }
+  ],
+  "notifications": []
 }
