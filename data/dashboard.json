@@ -24,158 +24,14 @@
     },
     {
       "id": "rcmphc-retail-transformation",
-      "name": "RCMPHC Retail Performance Recovery",
+      "name": "RCMPHC",
       "description": "90-day retail execution plan for Trading Post, Gift Shop, and Online store optimization.",
       "color": "#0ea5e9",
-      "createdAt": "2026-03-25T17:37:18.775Z"
+      "createdAt": "2026-03-25T17:37:18.775Z",
+      "updatedAt": "2026-03-25T17:48:54.583Z"
     }
   ],
   "tasks": [
-    {
-      "id": "task-001",
-      "title": "Set up Arcus + Clawdbot",
-      "description": "Configure AI assistant with Telegram, heartbeat, and essential tools",
-      "status": "done",
-      "priority": "high",
-      "projectId": "commotion-labs",
-      "assignee": null,
-      "createdAt": "2026-01-28T00:00:00.000Z",
-      "updatedAt": "2026-01-28T02:30:00.000Z",
-      "tags": [
-        "infrastructure",
-        "ai",
-        "legacy-import"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": []
-    },
-    {
-      "id": "task-002",
-      "title": "Build project dashboard",
-      "description": "Kanban board with list view for project management",
-      "status": "done",
-      "priority": "high",
-      "projectId": "commotion-labs",
-      "assignee": null,
-      "createdAt": "2026-01-28T02:58:00.000Z",
-      "updatedAt": "2026-01-28T17:45:40.824Z",
-      "tags": [
-        "dashboard",
-        "tooling",
-        "legacy-import"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": []
-    },
-    {
-      "id": "task-003",
-      "title": "Configure GitHub CLI access",
-      "description": "Run gh auth login to enable repo management",
-      "status": "done",
-      "priority": "medium",
-      "projectId": "commotion-labs",
-      "assignee": "gideon",
-      "createdAt": "2026-01-28T02:30:00.000Z",
-      "updatedAt": "2026-02-02T16:22:00.000Z",
-      "tags": [
-        "infrastructure",
-        "legacy-import"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": []
-    },
-    {
-      "id": "task-004",
-      "title": "Set up Brave Search API",
-      "description": "Get API key for web research capabilities",
-      "status": "todo",
-      "priority": "medium",
-      "projectId": "commotion-labs",
-      "assignee": "gideon",
-      "createdAt": "2026-01-28T02:30:00.000Z",
-      "updatedAt": "2026-01-29T13:57:26.772Z",
-      "tags": [
-        "infrastructure",
-        "legacy-import"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": []
-    },
-    {
-      "id": "task-005",
-      "title": "Coming Soon Landing Page",
-      "description": "Single hero page with vibrant gradient, 'Commotion Labs' title and 'Coming Soon' subtitle. Mobile responsive. Placeholder until full site is built.",
-      "status": "done",
-      "priority": "high",
-      "projectId": "commotion-labs",
-      "assignee": "forge",
-      "createdAt": "2026-01-30T17:16:00.000Z",
-      "updatedAt": "2026-01-30T17:16:00.000Z",
-      "tags": [
-        "development",
-        "website",
-        "legacy-import"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": []
-    },
-    {
-      "id": "task-006",
-      "title": "Commotion Labs Web Application",
-      "description": "Full interactive web application for Commotion Labs. Scope and features TBD.",
-      "status": "todo",
-      "priority": "medium",
-      "projectId": "commotion-labs",
-      "assignee": null,
-      "createdAt": "2026-01-30T17:16:00.000Z",
-      "updatedAt": "2026-01-30T17:16:00.000Z",
-      "tags": [
-        "development",
-        "website",
-        "legacy-import"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": []
-    },
-    {
-      "id": "task-007",
-      "title": "File Vault Application",
-      "description": "Shared file repository for Arcus and Gideon. Features: folder/category organization, file upload/download, metadata (description, tags, uploader name, date). Any file type, local access only, reasonable size limits.",
-      "status": "done",
-      "priority": "high",
-      "projectId": "commotion-labs",
-      "assignee": "forge",
-      "createdAt": "2026-02-02T15:56:00.000Z",
-      "updatedAt": "2026-02-02T20:57:00.000Z",
-      "tags": [
-        "development",
-        "tooling",
-        "legacy-import"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": []
-    },
     {
       "id": "rcmphc-001",
       "title": "Correct Lightspeed SKU categorization baseline",
@@ -830,6 +686,62 @@
     }
   ],
   "activityFeed": [
+    {
+      "id": "wa-1774460566118-ex57iw",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Deleted task",
+      "taskId": "task-004",
+      "createdAt": "2026-03-25T17:42:46.118Z"
+    },
+    {
+      "id": "wa-1774460541018-2994cf",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Deleted task",
+      "taskId": "task-003",
+      "createdAt": "2026-03-25T17:42:21.018Z"
+    },
+    {
+      "id": "wa-1774460538359-uzw7ps",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Deleted task",
+      "taskId": "task-007",
+      "createdAt": "2026-03-25T17:42:18.359Z"
+    },
+    {
+      "id": "wa-1774460536268-ok5zc6",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Deleted task",
+      "taskId": "task-005",
+      "createdAt": "2026-03-25T17:42:16.268Z"
+    },
+    {
+      "id": "wa-1774460533326-u9496y",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Deleted task",
+      "taskId": "task-002",
+      "createdAt": "2026-03-25T17:42:13.326Z"
+    },
+    {
+      "id": "wa-1774460530217-5casow",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Deleted task",
+      "taskId": "task-001",
+      "createdAt": "2026-03-25T17:42:10.217Z"
+    },
+    {
+      "id": "wa-1774460519077-8s0kv5",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Deleted task",
+      "taskId": "task-006",
+      "createdAt": "2026-03-25T17:41:59.077Z"
+    },
     {
       "id": "wa-rcmphc-1774460238775",
       "createdAt": "2026-03-25T17:37:18.775Z",

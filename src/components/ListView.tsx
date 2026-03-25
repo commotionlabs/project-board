@@ -34,6 +34,8 @@ const DEFAULT_COLUMNS: ListColumn[] = ['status', 'priority', 'assignee', 'projec
 export function ListView({ tasks, projects, onStatusChange, onEdit, onDelete, onOpenTask, filterProjectId }: ListViewProps) {
   const filteredTasks = filterProjectId ? tasks.filter(t => t.projectId === filterProjectId) : tasks;
   const [visibleColumns, setVisibleColumns] = React.useState<ListColumn[]>(DEFAULT_COLUMNS);
+  const [draggedTaskId, setDraggedTaskId] = React.useState<string | null>(null);
+  const [dragOverStatus, setDragOverStatus] = React.useState<TaskStatus | null>(null);
 
   const getProjectById = (id: string) => projects.find(p => p.id === id);
   const formatDate = (dateString?: string) => dateString ? new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
@@ -54,6 +56,14 @@ export function ListView({ tasks, projects, onStatusChange, onEdit, onDelete, on
       }
       return [...current, column];
     });
+  };
+
+  const handleDropToStatus = (status: TaskStatus) => {
+    if (!draggedTaskId) return;
+    const task = filteredTasks.find((t) => t.id === draggedTaskId);
+    if (task && task.status !== status) onStatusChange(draggedTaskId, status);
+    setDraggedTaskId(null);
+    setDragOverStatus(null);
   };
 
   const renderTaskActions = (task: Task) => {
@@ -90,10 +100,10 @@ export function ListView({ tasks, projects, onStatusChange, onEdit, onDelete, on
 
   return (
     <>
-      <div className="mb-3 hidden sm:flex items-center justify-end">
+      <div className="mb-3 hidden sm:flex items-center justify-between"><div className="flex flex-wrap gap-2">{STATUSES.map((status) => <Button key={status} size="sm" variant="outline" className={dragOverStatus === status ? 'bg-blue-50 border-blue-300' : ''} onDragOver={(e) => { e.preventDefault(); setDragOverStatus(status); }} onDragLeave={() => setDragOverStatus(null)} onDrop={() => handleDropToStatus(status)}>Move to {STATUS_CONFIG[status].label}</Button>)}</div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2"><Columns3 className="h-4 w-4" /> Columns</Button>
+            <Button variant="outline" size="sm" className="gap-2"><Columns3 className="h-4 w-4" /> Hide/Show</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Visible columns</DropdownMenuLabel>
@@ -111,7 +121,7 @@ export function ListView({ tasks, projects, onStatusChange, onEdit, onDelete, on
         {sortedTasks.map((task) => {
           const project = getProjectById(task.projectId);
           return (
-            <Card key={task.id} className="overflow-hidden" onClick={() => onOpenTask?.(task)}>
+            <Card key={task.id} className="overflow-hidden" onClick={() => onOpenTask?.(task)} draggable onDragStart={() => setDraggedTaskId(task.id)} onDragEnd={() => setDraggedTaskId(null)}>
               <CardContent className="p-3">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex-1 min-w-0">
@@ -150,7 +160,7 @@ export function ListView({ tasks, projects, onStatusChange, onEdit, onDelete, on
             {sortedTasks.map((task) => {
               const project = getProjectById(task.projectId);
               return (
-                <tr key={task.id} className="hover:bg-muted/30 transition-colors group cursor-pointer" onClick={() => onOpenTask?.(task)}>
+                <tr key={task.id} draggable onDragStart={() => setDraggedTaskId(task.id)} onDragEnd={() => { setDraggedTaskId(null); setDragOverStatus(null); }} className="hover:bg-muted/30 transition-colors group cursor-pointer" onClick={() => onOpenTask?.(task)}>
                   <td className="px-4 py-3"><p className="font-medium text-sm">{task.title}</p>{task.description && <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{task.description}</p>}</td>
                   {visibleColumns.includes('status') && <td className="px-4 py-3"><Badge variant="secondary" className={`text-xs text-white ${STATUS_CONFIG[task.status].color}`}>{STATUS_CONFIG[task.status].label}</Badge></td>}
                   {visibleColumns.includes('priority') && <td className="px-4 py-3"><Badge variant="secondary" className={`text-xs text-white ${PRIORITY_CONFIG[task.priority].color}`}>{PRIORITY_CONFIG[task.priority].label}</Badge></td>}

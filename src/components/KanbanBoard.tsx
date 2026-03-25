@@ -22,12 +22,23 @@ const COLUMNS: TaskStatus[] = ['backlog', 'todo', 'in-progress', 'review', 'done
 
 export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete, onAddTask, onOpenTask, filterProjectId }: KanbanBoardProps) {
   const [mobileColumnIndex, setMobileColumnIndex] = useState(1);
+  const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
+  const [dragOverStatus, setDragOverStatus] = useState<TaskStatus | null>(null);
+
   const filteredTasks = filterProjectId ? tasks.filter(t => t.projectId === filterProjectId) : tasks;
   const getProjectById = (id: string) => projects.find(p => p.id === id);
 
   const currentStatus = COLUMNS[mobileColumnIndex];
   const currentColumnTasks = filteredTasks.filter(t => t.status === currentStatus);
   const currentConfig = STATUS_CONFIG[currentStatus];
+
+  const handleDrop = (targetStatus: TaskStatus) => {
+    if (!draggedTaskId) return;
+    const task = filteredTasks.find((t) => t.id === draggedTaskId);
+    if (task && task.status !== targetStatus) onStatusChange(draggedTaskId, targetStatus);
+    setDraggedTaskId(null);
+    setDragOverStatus(null);
+  };
 
   return (
     <>
@@ -61,9 +72,20 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
           <Plus className="h-4 w-4 mr-2" /> Add to {currentConfig.label}
         </Button>
 
-        <div className="space-y-2">
+        <div className={`space-y-2 rounded-lg p-1 ${dragOverStatus === currentStatus ? 'bg-blue-50' : ''}`}
+          onDragOver={(e) => { e.preventDefault(); setDragOverStatus(currentStatus); }}
+          onDragLeave={() => setDragOverStatus(null)}
+          onDrop={() => handleDrop(currentStatus)}
+        >
           {currentColumnTasks.map((task) => (
-            <TaskCard key={task.id} task={task} project={getProjectById(task.projectId)} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} onOpenTask={onOpenTask} />
+            <div
+              key={task.id}
+              draggable
+              onDragStart={() => setDraggedTaskId(task.id)}
+              onDragEnd={() => { setDraggedTaskId(null); setDragOverStatus(null); }}
+            >
+              <TaskCard task={task} project={getProjectById(task.projectId)} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} onOpenTask={onOpenTask} />
+            </div>
           ))}
           {currentColumnTasks.length === 0 && <div className="text-center py-8 text-sm text-muted-foreground bg-muted/30 rounded-lg">No tasks in {currentConfig.label}</div>}
         </div>
@@ -74,7 +96,13 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
           const columnTasks = filteredTasks.filter(t => t.status === status);
           const config = STATUS_CONFIG[status];
           return (
-            <div key={status} className="flex-shrink-0 w-72 bg-muted/50 rounded-lg p-3">
+            <div
+              key={status}
+              className={`flex-shrink-0 w-72 rounded-lg p-3 transition-colors ${dragOverStatus === status ? 'bg-blue-50 border border-blue-200' : 'bg-muted/50'}`}
+              onDragOver={(e) => { e.preventDefault(); setDragOverStatus(status); }}
+              onDragLeave={() => setDragOverStatus(null)}
+              onDrop={() => handleDrop(status)}
+            >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <div className={`w-2 h-2 rounded-full ${config.color}`} />
@@ -83,9 +111,16 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
                 </div>
                 <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => onAddTask(status)}><Plus className="h-4 w-4" /></Button>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 min-h-24">
                 {columnTasks.map((task) => (
-                  <TaskCard key={task.id} task={task} project={getProjectById(task.projectId)} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} onOpenTask={onOpenTask} />
+                  <div
+                    key={task.id}
+                    draggable
+                    onDragStart={() => setDraggedTaskId(task.id)}
+                    onDragEnd={() => { setDraggedTaskId(null); setDragOverStatus(null); }}
+                  >
+                    <TaskCard task={task} project={getProjectById(task.projectId)} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} onOpenTask={onOpenTask} />
+                  </div>
                 ))}
                 {columnTasks.length === 0 && <div className="text-center py-8 text-sm text-muted-foreground">No tasks</div>}
               </div>
