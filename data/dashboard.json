@@ -2,53 +2,43 @@
   "version": 2,
   "projects": [
     {
-      "id": "commotion-labs",
-      "name": "Commotion Labs",
-      "description": "Ventures and projects under Commotion Labs",
-      "color": "#6366f1",
-      "createdAt": "2026-01-28T00:00:00.000Z"
+      "id": "retail-action-plan",
+      "name": "Retail Action Plan",
+      "description": "Current-state, action structure, accountability, SOPs, and bundling execution.",
+      "color": "#ef4444",
+      "createdAt": "2026-03-25T18:54:10.567Z"
     },
     {
-      "id": "museum-initiatives",
-      "name": "Museum Strategic Initiatives",
-      "description": "Director role - growth and fund acquisition",
+      "id": "financial-support-analysis",
+      "name": "Friends & Veterans Financial Support Analysis",
+      "description": "Two-fiscal-year cost model, data collection, reconciliation, and executive brief.",
+      "color": "#3b82f6",
+      "createdAt": "2026-03-25T18:54:10.567Z"
+    },
+    {
+      "id": "policy-governance",
+      "name": "Policy Development & Governance",
+      "description": "Security and volunteer policy completion, gap checks, Sam validation, and rollout.",
       "color": "#10b981",
-      "createdAt": "2026-01-28T00:00:00.000Z"
-    },
-    {
-      "id": "personal",
-      "name": "Personal",
-      "description": "Personal tasks and projects",
-      "color": "#f59e0b",
-      "createdAt": "2026-01-28T00:00:00.000Z"
-    },
-    {
-      "id": "rcmphc-retail-transformation",
-      "name": "RCMPHC",
-      "description": "90-day retail execution plan for Trading Post, Gift Shop, and Online store optimization.",
-      "color": "#0ea5e9",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:48:54.583Z"
+      "createdAt": "2026-03-25T18:54:10.567Z"
     }
   ],
   "tasks": [
     {
-      "id": "rcmphc-001",
-      "title": "Correct Lightspeed SKU categorization baseline",
-      "description": "Audit and correct SKU categorization in Lightspeed; align taxonomy with website categories.",
+      "id": "task-001",
+      "title": "Draft Retail Current-State Assessment",
+      "description": "Capture what’s working, biggest gaps, and opportunities. Output: 1-page current-state brief.",
       "status": "in-progress",
       "priority": "urgent",
-      "projectId": "rcmphc-retail-transformation",
+      "projectId": "retail-action-plan",
       "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-04-30T23:00:00.000Z",
+      "dueDate": "2026-03-31T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
       "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "immediate",
-        "systems",
-        "inventory"
+        "epic-1",
+        "retail",
+        "assessment"
       ],
       "comments": [],
       "dependencies": [],
@@ -56,28 +46,113 @@
       "attachments": [],
       "activity": [
         {
-          "id": "act-rcmphc-001",
+          "id": "act-task-001",
           "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
         }
       ]
     },
     {
-      "id": "rcmphc-002",
-      "title": "Publish receiving SOP (intake, SKU assignment, tracking)",
-      "description": "Create and train against SOP covering receiving workflow, SKU mapping, and inventory handling.",
+      "id": "task-002",
+      "title": "Define Retail Action Plan Structure",
+      "description": "Format: Current State → Gaps/Opportunities → Next Steps. Output: standardized action-plan template for this initiative.",
       "status": "todo",
       "priority": "urgent",
-      "projectId": "rcmphc-retail-transformation",
+      "projectId": "retail-action-plan",
       "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-04-30T23:00:00.000Z",
+      "dueDate": "2026-04-01T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
       "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "immediate",
+        "epic-1",
+        "retail",
+        "planning"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-002",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-003",
+      "title": "Build Accountability Matrix (RACI-lite)",
+      "description": "Assign responsibilities (Retail, Sam, Marketing, etc.) with deadlines. Output: owner-by-workstream task matrix.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "retail-action-plan",
+      "assignee": "gideon",
+      "dueDate": "2026-04-02T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-1",
+        "raci",
+        "governance"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-003",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-004",
+      "title": "Create Bundling & Upselling Plan Request for Raj",
+      "description": "Define Raj deliverables: SKU-level opportunities, immediate actions, dependencies. Output: briefing note + deliverables checklist.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "retail-action-plan",
+      "assignee": "gideon",
+      "dueDate": "2026-04-03T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-1",
+        "bundling",
+        "raj"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-004",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-005",
+      "title": "Develop SOP Framework (Raj lead candidate)",
+      "description": "Lean SOP format (~2.5 pages): step sequence, issue handling, escalation contacts. Output: SOP template + first draft for priority process.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "retail-action-plan",
+      "assignee": "gideon",
+      "dueDate": "2026-04-05T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-1",
         "sop",
         "operations"
       ],
@@ -87,486 +162,28 @@
       "attachments": [],
       "activity": [
         {
-          "id": "act-rcmphc-002",
+          "id": "act-task-005",
           "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
         }
       ]
     },
     {
-      "id": "rcmphc-003",
-      "title": "High-demand shelf availability enforcement",
-      "description": "Define top SKUs and implement weekly checks to prevent stockouts and shelf gaps.",
-      "status": "todo",
-      "priority": "urgent",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-04-30T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "immediate",
-        "merchandising",
-        "inventory"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-003",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-004",
-      "title": "Weekly cycle count + stock accuracy dashboard",
-      "description": "Launch recurring inventory checks across warehouse/store/online with discrepancy workflow.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-04-30T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "immediate",
-        "inventory",
-        "reporting"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-004",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-005",
-      "title": "Define reorder thresholds and replenishment cadence",
-      "description": "Set min/max thresholds and reorder cycles by SKU class and velocity.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-05-20T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "30-60",
-        "inventory"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-005",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-006",
-      "title": "Cross-location inventory visibility model",
-      "description": "Unify warehouse/store/online stock views for SKU-level decision support.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-05-25T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "30-60",
-        "systems",
-        "inventory"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-006",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-007",
-      "title": "Retail + marketing monthly campaign calendar",
-      "description": "Build campaign planning cadence with ownership and KPI tracking.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-05-15T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "30-60",
-        "marketing"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-007",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-008",
-      "title": "In-store merchandising standards pack",
-      "description": "Standardize display, signage, and shelf strategy with high-performer prioritization.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-05-25T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "30-60",
-        "merchandising"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-008",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-009",
-      "title": "Coupon execution and frontline training reset",
-      "description": "Fix coupon distribution/execution process and train staff for consistent conversion.",
-      "status": "todo",
-      "priority": "medium",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-05-30T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "30-60",
-        "promotions",
-        "training"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-009",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-010",
-      "title": "POS-inventory-online integration roadmap",
-      "description": "Define phased integration plan, dependencies, and delivery milestones.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-06-15T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "60-90",
-        "systems"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-010",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-011",
-      "title": "Eliminate manual POS overrides policy + controls",
-      "description": "Implement policy, role controls, and exception logging to reduce data drift.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-06-20T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "60-90",
-        "systems",
-        "controls"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-011",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-012",
-      "title": "Product strategy reset (core winners first)",
-      "description": "Prioritize proven sellers, reduce low-margin underperformers, set lifecycle governance.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-06-25T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "60-90",
-        "product-strategy"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-012",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-013",
-      "title": "Bundle strategy (cadet, family, seasonal)",
-      "description": "Design bundle offers to increase average order value and conversion.",
-      "status": "todo",
-      "priority": "medium",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-06-30T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "60-90",
-        "bundling",
-        "revenue"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-013",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-014",
-      "title": "Promotion performance tracking framework",
-      "description": "Define KPI dashboard for coupons, events, lifecycle campaigns, and attribution.",
-      "status": "todo",
-      "priority": "medium",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-06-30T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "60-90",
-        "reporting",
-        "promotions"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-014",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-015",
-      "title": "Cadet lifecycle monetization playbook",
-      "description": "Map weekly intake/graduation moments to timed offers and follow-up automations.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-06-10T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "strategy",
-        "cadet"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-015",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-016",
-      "title": "Online catalog recovery: list unposted in-stock SKUs",
-      "description": "Identify in-stock items not online and publish with corrected metadata.",
-      "status": "todo",
-      "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-05-10T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "strategy",
-        "online-store"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-016",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-017",
-      "title": "Partnership activation: RCMP Foundation + Veterans orgs",
-      "description": "Define co-marketing and channel partnerships for retail lift.",
-      "status": "todo",
-      "priority": "medium",
-      "projectId": "rcmphc-retail-transformation",
-      "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-06-30T23:00:00.000Z",
-      "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "strategy",
-        "partnerships"
-      ],
-      "comments": [],
-      "dependencies": [],
-      "notes": [],
-      "attachments": [],
-      "activity": [
-        {
-          "id": "act-rcmphc-017",
-          "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
-        }
-      ]
-    },
-    {
-      "id": "rcmphc-018",
-      "title": "Retail baseline KPI scorecard (Q2 to date)",
-      "description": "Establish baseline metrics: stockout rate, conversion, category velocity, campaign ROI.",
+      "id": "task-006",
+      "title": "Scope Support Cost Model (2 Fiscal Years)",
+      "description": "Define categories: direct expenses, waived fees, event support, staff time, utilities, Coffee Thursdays, bar constraints ($5 cap), etc. Output: agreed costing framework.",
       "status": "in-progress",
       "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
+      "projectId": "financial-support-analysis",
       "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-04-15T23:00:00.000Z",
+      "dueDate": "2026-04-04T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
       "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "baseline",
-        "analytics"
+        "epic-2",
+        "finance",
+        "cost-model"
       ],
       "comments": [],
       "dependencies": [],
@@ -574,29 +191,28 @@
       "attachments": [],
       "activity": [
         {
-          "id": "act-rcmphc-018",
+          "id": "act-task-006",
           "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
         }
       ]
     },
     {
-      "id": "rcmphc-019",
-      "title": "Investigate category anomalies (vehicle toys, plush, clothing)",
-      "description": "Root cause review for underperforming categories and corrective actions.",
+      "id": "task-007",
+      "title": "Collect Source Data — Friends",
+      "description": "Pull data from Jenna, Glenn, Rifky; include paid/waived events, staff time, and in-kind support. Output: consolidated Friends dataset.",
       "status": "todo",
       "priority": "high",
-      "projectId": "rcmphc-retail-transformation",
+      "projectId": "financial-support-analysis",
       "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-05-05T23:00:00.000Z",
+      "dueDate": "2026-04-08T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
       "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "diagnostics",
-        "category"
+        "epic-2",
+        "friends",
+        "data-collection"
       ],
       "comments": [],
       "dependencies": [],
@@ -604,29 +220,28 @@
       "attachments": [],
       "activity": [
         {
-          "id": "act-rcmphc-019",
+          "id": "act-task-007",
           "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
         }
       ]
     },
     {
-      "id": "rcmphc-020",
-      "title": "Scale challenge coin playbook to top categories",
-      "description": "Replicate display/availability tactics that drove +31% in challenge coins.",
+      "id": "task-008",
+      "title": "Collect Source Data — Veterans",
+      "description": "Capture bi-monthly meetings + hosted events, waived costs, bartender cost treatment. Output: consolidated Veterans dataset.",
       "status": "todo",
-      "priority": "medium",
-      "projectId": "rcmphc-retail-transformation",
+      "priority": "high",
+      "projectId": "financial-support-analysis",
       "assignee": "gideon",
-      "createdAt": "2026-03-25T17:37:18.775Z",
-      "updatedAt": "2026-03-25T17:37:18.775Z",
-      "dueDate": "2026-05-12T23:00:00.000Z",
+      "dueDate": "2026-04-08T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
       "tags": [
-        "rcmphc",
-        "retail-recovery",
-        "diagnostics",
-        "merchandising"
+        "epic-2",
+        "veterans",
+        "data-collection"
       ],
       "comments": [],
       "dependencies": [],
@@ -634,10 +249,242 @@
       "attachments": [],
       "activity": [
         {
-          "id": "act-rcmphc-020",
+          "id": "act-task-008",
           "type": "created",
-          "summary": "Task created from Retail Performance Session action plan",
-          "createdAt": "2026-03-25T17:37:18.775Z"
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-009",
+      "title": "Request and Reconcile Sam’s Financial Inputs",
+      "description": "Sam to forward spreadsheets + prior email to Bob. Output: reconciled baseline financial workbook.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "financial-support-analysis",
+      "assignee": "gideon",
+      "dueDate": "2026-04-10T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-2",
+        "sam",
+        "reconciliation"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-009",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-010",
+      "title": "Quantify Net Support and Margin Impact",
+      "description": "Calculate total support by group and losses (including beverage pricing constraint impact). Output: 2-year analysis report with charts/tables.",
+      "status": "todo",
+      "priority": "high",
+      "projectId": "financial-support-analysis",
+      "assignee": "gideon",
+      "dueDate": "2026-04-12T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-2",
+        "analysis",
+        "margin"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-010",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-011",
+      "title": "Prepare Executive Brief for Sam’s Stakeholder Discussion",
+      "description": "Frame message: “We support at this level; here are cost drivers and options.” Output: talking points + one-pager.",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "financial-support-analysis",
+      "assignee": "gideon",
+      "dueDate": "2026-04-14T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-2",
+        "executive-brief",
+        "stakeholders"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-011",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-012",
+      "title": "Complete Security Policy Draft (from Jenna’s draft)",
+      "description": "Incorporate current policy inventory and missing sections. Output: complete draft for review.",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "policy-governance",
+      "assignee": "gideon",
+      "dueDate": "2026-04-15T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-3",
+        "policy",
+        "security"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-012",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-013",
+      "title": "Policy Gap Check — Existing Set",
+      "description": "Confirm existing policies are current; identify additional needed policies. Output: policy gap register.",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "policy-governance",
+      "assignee": "gideon",
+      "dueDate": "2026-04-16T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-3",
+        "policy",
+        "gap-analysis"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-013",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-014",
+      "title": "Sam Final Validation Pass",
+      "description": "Route updated policy set to Sam for review/check-in. Output: approved/marked-up policy set.",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "policy-governance",
+      "assignee": "gideon",
+      "dueDate": "2026-04-18T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-3",
+        "sam",
+        "validation"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-014",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-015",
+      "title": "Draft Volunteer Policy",
+      "description": "Cover volunteer obligation to follow Centre policies + personal property clause (no personal items stored; Centre not responsible).",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "policy-governance",
+      "assignee": "gideon",
+      "dueDate": "2026-04-17T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-3",
+        "policy",
+        "volunteer"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-015",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
+        }
+      ]
+    },
+    {
+      "id": "task-016",
+      "title": "Volunteer Policy Rollout Plan",
+      "description": "Define presentation, acknowledgment, and enforcement process for staff/volunteers.",
+      "status": "todo",
+      "priority": "medium",
+      "projectId": "policy-governance",
+      "assignee": "gideon",
+      "dueDate": "2026-04-20T23:59:00.000Z",
+      "createdAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "tags": [
+        "epic-3",
+        "rollout",
+        "operations"
+      ],
+      "comments": [],
+      "dependencies": [],
+      "notes": [],
+      "attachments": [],
+      "activity": [
+        {
+          "id": "act-task-016",
+          "type": "created",
+          "summary": "Task created from planning notes",
+          "createdAt": "2026-03-25T18:54:10.567Z"
         }
       ]
     }
@@ -645,116 +492,53 @@
   "templates": [],
   "savedViews": [
     {
-      "id": "view-rcmphc-60-90",
-      "name": "RCMPHC: 60-90 Day",
-      "query": "60-90",
-      "projectId": "rcmphc-retail-transformation",
+      "id": "view-priority-1",
+      "name": "Priority 1 — Retail",
+      "projectId": "retail-action-plan",
       "quickFilters": [
         "todo",
         "in-progress"
       ],
-      "createdAt": "2026-03-25T17:37:18.775Z"
+      "createdAt": "2026-03-25T18:54:10.567Z"
     },
     {
-      "id": "view-rcmphc-immediate",
-      "name": "RCMPHC: Immediate (Apr 30)",
-      "query": "immediate",
-      "projectId": "rcmphc-retail-transformation",
+      "id": "view-priority-2",
+      "name": "Priority 2 — Financial Support",
+      "projectId": "financial-support-analysis",
       "quickFilters": [
         "todo",
         "in-progress"
       ],
-      "createdAt": "2026-03-25T17:37:18.775Z"
+      "createdAt": "2026-03-25T18:54:10.567Z"
     },
     {
-      "id": "view-rcmphc-all",
-      "name": "RCMPHC: All Open",
-      "query": "",
-      "projectId": "rcmphc-retail-transformation",
+      "id": "view-priority-3",
+      "name": "Priority 3 — Policy",
+      "projectId": "policy-governance",
+      "quickFilters": [
+        "todo",
+        "in-progress"
+      ],
+      "createdAt": "2026-03-25T18:54:10.567Z"
+    },
+    {
+      "id": "view-all-open",
+      "name": "All Open",
       "quickFilters": [
         "todo",
         "in-progress",
         "review"
       ],
-      "createdAt": "2026-03-25T17:37:18.775Z"
-    },
-    {
-      "id": "view-recovered-draft",
-      "name": "Recovered Draft (Verify)",
-      "query": "recovered",
-      "createdAt": "2026-03-25T16:04:34.397Z"
+      "createdAt": "2026-03-25T18:54:10.567Z"
     }
   ],
   "activityFeed": [
     {
-      "id": "wa-1774460566118-ex57iw",
-      "actor": "gideon",
-      "type": "event",
-      "summary": "Deleted task",
-      "taskId": "task-004",
-      "createdAt": "2026-03-25T17:42:46.118Z"
-    },
-    {
-      "id": "wa-1774460541018-2994cf",
-      "actor": "gideon",
-      "type": "event",
-      "summary": "Deleted task",
-      "taskId": "task-003",
-      "createdAt": "2026-03-25T17:42:21.018Z"
-    },
-    {
-      "id": "wa-1774460538359-uzw7ps",
-      "actor": "gideon",
-      "type": "event",
-      "summary": "Deleted task",
-      "taskId": "task-007",
-      "createdAt": "2026-03-25T17:42:18.359Z"
-    },
-    {
-      "id": "wa-1774460536268-ok5zc6",
-      "actor": "gideon",
-      "type": "event",
-      "summary": "Deleted task",
-      "taskId": "task-005",
-      "createdAt": "2026-03-25T17:42:16.268Z"
-    },
-    {
-      "id": "wa-1774460533326-u9496y",
-      "actor": "gideon",
-      "type": "event",
-      "summary": "Deleted task",
-      "taskId": "task-002",
-      "createdAt": "2026-03-25T17:42:13.326Z"
-    },
-    {
-      "id": "wa-1774460530217-5casow",
-      "actor": "gideon",
-      "type": "event",
-      "summary": "Deleted task",
-      "taskId": "task-001",
-      "createdAt": "2026-03-25T17:42:10.217Z"
-    },
-    {
-      "id": "wa-1774460519077-8s0kv5",
-      "actor": "gideon",
-      "type": "event",
-      "summary": "Deleted task",
-      "taskId": "task-006",
-      "createdAt": "2026-03-25T17:41:59.077Z"
-    },
-    {
-      "id": "wa-rcmphc-1774460238775",
-      "createdAt": "2026-03-25T17:37:18.775Z",
+      "id": "wa-reset-1774464850567",
+      "createdAt": "2026-03-25T18:54:10.567Z",
       "actor": "system",
-      "type": "recovery",
-      "summary": "Rebuilt board with RCMPHC retail recovery project and 90-day action plan tasks."
-    },
-    {
-      "id": "wa-recovery-1774454674397",
-      "createdAt": "2026-03-25T16:04:34.397Z",
-      "actor": "system",
-      "type": "recovery",
-      "summary": "Reconstructed recovery draft tasks after data-loss incident."
+      "type": "planning-reset",
+      "summary": "Board reset and rebuilt from latest planning notes (3 workstreams)."
     }
   ],
   "notifications": []
