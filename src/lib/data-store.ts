@@ -4,6 +4,7 @@ import type { DashboardData, Task, TaskAttachment, TaskRecurrence } from '@/type
 
 export const DATA_FILE = path.join(process.cwd(), 'data', 'dashboard.json');
 export const UPLOAD_DIR = path.join(process.cwd(), 'data', 'uploads');
+export const BACKUP_DIR = path.join(process.cwd(), 'data', 'backups');
 
 const ensureTask = (task: Task): Task => ({
   ...task,
@@ -34,10 +35,27 @@ export async function loadDashboardData(): Promise<DashboardData> {
   }
 }
 
+const writeSnapshot = async (payload: string) => {
+  await fs.mkdir(BACKUP_DIR, { recursive: true });
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const file = path.join(BACKUP_DIR, `dashboard-${stamp}.json`);
+  await fs.writeFile(file, payload);
+  const files = (await fs.readdir(BACKUP_DIR)).filter((f) => f.startsWith('dashboard-') && f.endsWith('.json')).sort();
+  const keep = 50;
+  const remove = files.slice(0, Math.max(0, files.length - keep));
+  await Promise.all(remove.map((f) => fs.unlink(path.join(BACKUP_DIR, f)).catch(() => {})));
+};
+
 export async function saveDashboardData(data: DashboardData): Promise<void> {
   await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
   const normalized = normalizeDashboardData(data);
-  await fs.writeFile(DATA_FILE, JSON.stringify(normalized, null, 2));
+  const payload = JSON.stringify(normalized, null, 2);
+  try {
+    await writeSnapshot(payload);
+  } catch (e) {
+    console.error('Snapshot write failed:', e);
+  }
+  await fs.writeFile(DATA_FILE, payload);
 }
 
 const addDays = (date: Date, days: number) => {

@@ -60,6 +60,24 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const data: DashboardData = await request.json();
+    const current = await loadDashboardData();
+    const incomingCount = data.tasks?.length ?? 0;
+    const currentCount = current.tasks?.length ?? 0;
+    const force = request.headers.get('x-force-save') === '1';
+
+    // Guard against accidental stale overwrite/wipe from old clients.
+    if (!force && currentCount >= 20 && incomingCount <= Math.floor(currentCount * 0.5)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Rejected suspicious save: incoming task set is much smaller than server state.',
+          currentCount,
+          incomingCount,
+        },
+        { status: 409 }
+      );
+    }
+
     await saveDashboardData(data);
     return NextResponse.json({ success: true });
   } catch (error) {
