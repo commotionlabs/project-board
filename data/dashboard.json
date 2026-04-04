@@ -57,13 +57,13 @@
       "id": "task-002",
       "title": "Define Retail Action Plan Structure",
       "description": "Format: Current State → Gaps/Opportunities → Next Steps. Output: standardized action-plan template for this initiative.",
-      "status": "todo",
+      "status": "done",
       "priority": "urgent",
       "projectId": "retail-action-plan",
       "assignee": "gideon",
       "dueDate": "2026-04-01T23:59:00.000Z",
       "createdAt": "2026-03-25T18:54:10.567Z",
-      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T20:00:00.511Z",
       "tags": [
         "epic-1",
         "retail",
@@ -79,6 +79,13 @@
           "type": "created",
           "summary": "Task created from planning notes",
           "createdAt": "2026-03-25T18:54:10.567Z"
+        },
+        {
+          "id": "act-1774468800511-8i43mm",
+          "type": "status-changed",
+          "summary": "Status changed",
+          "detail": "To Do → Done",
+          "createdAt": "2026-03-25T20:00:00.511Z"
         }
       ]
     },
@@ -86,13 +93,13 @@
       "id": "task-003",
       "title": "Build Accountability Matrix (RACI-lite)",
       "description": "Assign responsibilities (Retail, Sam, Marketing, etc.) with deadlines. Output: owner-by-workstream task matrix.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "projectId": "retail-action-plan",
       "assignee": "gideon",
       "dueDate": "2026-04-02T23:59:00.000Z",
       "createdAt": "2026-03-25T18:54:10.567Z",
-      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T19:59:55.836Z",
       "tags": [
         "epic-1",
         "raci",
@@ -108,6 +115,13 @@
           "type": "created",
           "summary": "Task created from planning notes",
           "createdAt": "2026-03-25T18:54:10.567Z"
+        },
+        {
+          "id": "act-1774468795836-m3p4ha",
+          "type": "status-changed",
+          "summary": "Status changed",
+          "detail": "To Do → Done",
+          "createdAt": "2026-03-25T19:59:55.836Z"
         }
       ]
     },
@@ -144,13 +158,13 @@
       "id": "task-005",
       "title": "Develop SOP Framework (Raj lead candidate)",
       "description": "Lean SOP format (~2.5 pages): step sequence, issue handling, escalation contacts. Output: SOP template + first draft for priority process.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "projectId": "retail-action-plan",
       "assignee": "gideon",
       "dueDate": "2026-04-05T23:59:00.000Z",
       "createdAt": "2026-03-25T18:54:10.567Z",
-      "updatedAt": "2026-03-25T18:54:10.567Z",
+      "updatedAt": "2026-03-25T20:00:06.378Z",
       "tags": [
         "epic-1",
         "sop",
@@ -166,6 +180,13 @@
           "type": "created",
           "summary": "Task created from planning notes",
           "createdAt": "2026-03-25T18:54:10.567Z"
+        },
+        {
+          "id": "act-1774468806378-c7uvpp",
+          "type": "status-changed",
+          "summary": "Status changed",
+          "detail": "To Do → Done",
+          "createdAt": "2026-03-25T20:00:06.378Z"
         }
       ]
     },
@@ -533,6 +554,30 @@
     }
   ],
   "activityFeed": [
+    {
+      "id": "wa-1774468806378-20t8zi",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Changed task status to Done",
+      "taskId": "task-005",
+      "createdAt": "2026-03-25T20:00:06.378Z"
+    },
+    {
+      "id": "wa-1774468800511-ft87hk",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Changed task status to Done",
+      "taskId": "task-002",
+      "createdAt": "2026-03-25T20:00:00.511Z"
+    },
+    {
+      "id": "wa-1774468795836-wtfbwd",
+      "actor": "gideon",
+      "type": "event",
+      "summary": "Changed task status to Done",
+      "taskId": "task-003",
+      "createdAt": "2026-03-25T19:59:55.836Z"
+    },
     {
       "id": "wa-reset-1774464850567",
       "createdAt": "2026-03-25T18:54:10.567Z",
