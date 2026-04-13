@@ -37,7 +37,7 @@ export function TaskDetailSidebar({ task, projects, allTasks, onClose, onAddComm
     <aside className="fixed inset-x-0 bottom-0 top-auto z-40 h-[88vh] w-full rounded-t-2xl border bg-background shadow-2xl sm:inset-y-0 sm:left-auto sm:right-0 sm:top-0 sm:h-screen sm:w-[460px] sm:rounded-none sm:border-l">
       <div className="flex h-full flex-col">
         <div className="flex items-start justify-between border-b px-4 py-3">
-          <div><h2 className="text-base font-semibold">{task.title}</h2><p className="text-xs text-muted-foreground">Task overview</p></div>
+          <div><h2 className="text-base font-semibold">{task.title}</h2><p className="text-xs text-muted-foreground">Task details</p></div>
           <Button variant="ghost" size="icon" onClick={onClose}><X className="h-4 w-4" /></Button>
         </div>
 
@@ -53,25 +53,25 @@ export function TaskDetailSidebar({ task, projects, allTasks, onClose, onAddComm
           {task.dueDate && <section className="flex items-center gap-2 text-sm text-muted-foreground"><Calendar className="h-4 w-4" />Due {new Date(task.dueDate).toLocaleDateString()}</section>}
 
           <section className="space-y-2 border-t pt-4">
-            <h3 className="text-sm font-medium">Blocked by</h3>
+            <h3 className="text-sm font-medium">Dependencies</h3>
             <div className="flex gap-2">
               <select className="border rounded px-2 py-1 text-sm flex-1" value={depId} onChange={(e) => setDepId(e.target.value)}>
-                <option value="">Choose a task that must be done first…</option>
+                <option value="">Select a blocking task…</option>
                 {allTasks.filter((t) => t.id !== task.id).map((t) => <option key={t.id} value={t.id}>{t.title}</option>)}
               </select>
-              <Button size="sm" onClick={() => { if (!depId) return; onAddDependency(task.id, depId); setDepId(''); }}>Link</Button>
+              <Button size="sm" onClick={() => { if (!depId) return; onAddDependency(task.id, depId); setDepId(''); }}>Add</Button>
             </div>
             <div className="space-y-1">
-              {blockers.length === 0 ? <p className="text-xs text-muted-foreground">No blockers.</p> : blockers.map((b) => (
+              {blockers.length === 0 ? <p className="text-xs text-muted-foreground">No dependencies.</p> : blockers.map((b) => (
                 <p key={b.id} className="text-xs border rounded px-2 py-1">{b.title} · {STATUS_CONFIG[b.status].label}</p>
               ))}
             </div>
           </section>
 
           <section className="space-y-2 border-t pt-4">
-            <h3 className="text-sm font-medium">Comments</h3>
+            <h3 className="text-sm font-medium">Comments (@mentions supported)</h3>
             <div className="flex gap-2">
-              <Input value={commentText} onChange={(e) => setCommentText(e.target.value)} placeholder="Add a note or update..." />
+              <Input value={commentText} onChange={(e) => setCommentText(e.target.value)} placeholder="Add a comment..." />
               <Button size="icon" onClick={() => { if (!commentText.trim()) return; onAddComment(task.id, commentText.trim()); setCommentText(''); }}><Send className="h-4 w-4" /></Button>
             </div>
             <div className="space-y-2">
@@ -93,7 +93,7 @@ export function TaskDetailSidebar({ task, projects, allTasks, onClose, onAddComm
                   <p className="text-sm font-medium">{file.name}</p>
                   <p className="text-[11px] text-muted-foreground">{formatBytes(file.size)} · {new Date(file.createdAt).toLocaleString()}</p>
                   <div className="mt-2 flex gap-2">
-                    <Button asChild size="sm" variant="outline"><a href={`/api/attachments/${task.id}/${file.id}`} target="_blank" rel="noreferrer"><Eye className="h-3.5 w-3.5 mr-1" />Open</a></Button>
+                    <Button asChild size="sm" variant="outline"><a href={`/api/attachments/${task.id}/${file.id}`} target="_blank" rel="noreferrer"><Eye className="h-3.5 w-3.5 mr-1" />Preview</a></Button>
                     <Button asChild size="sm" variant="outline"><a href={`/api/attachments/${task.id}/${file.id}?download=1`} download={file.name}><Download className="h-3.5 w-3.5 mr-1" />Download</a></Button>
                   </div>
                 </div>

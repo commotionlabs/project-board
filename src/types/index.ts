@@ -141,11 +141,11 @@ export interface Project {
 }
 
 export const STATUS_CONFIG: Record<TaskStatus, { label: string; color: string }> = {
-  backlog: { label: 'Ideas', color: 'bg-slate-500' },
-  todo: { label: 'Planned', color: 'bg-blue-500' },
+  backlog: { label: 'Backlog', color: 'bg-slate-500' },
+  todo: { label: 'To Do', color: 'bg-blue-500' },
   'in-progress': { label: 'In Progress', color: 'bg-yellow-500' },
-  review: { label: 'Needs Review', color: 'bg-purple-500' },
-  done: { label: 'Completed', color: 'bg-green-500' },
+  review: { label: 'Review', color: 'bg-purple-500' },
+  done: { label: 'Done', color: 'bg-green-500' },
 };
 
 export const PRIORITY_CONFIG: Record<TaskPriority, { label: string; color: string }> = {

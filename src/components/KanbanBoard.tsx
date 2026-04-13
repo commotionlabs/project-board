@@ -84,7 +84,7 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
           {currentColumnTasks.map((task) => (
             <TaskCard key={task.id} task={task} project={getProjectById(task.projectId)} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} onOpenTask={onOpenTask} />
           ))}
-          {currentColumnTasks.length === 0 && <div className="text-center py-8 text-sm text-muted-foreground bg-muted/30 rounded-lg">No tasks in {currentConfig.label} yet</div>}
+          {currentColumnTasks.length === 0 && <div className="text-center py-8 text-sm text-muted-foreground bg-muted/30 rounded-lg">No tasks in {currentConfig.label}</div>}
         </div>
       </div>
 
@@ -115,7 +115,7 @@ export function KanbanBoard({ tasks, projects, onStatusChange, onEdit, onDelete,
                 {columnTasks.map((task) => (
                   <TaskCard key={task.id} task={task} project={getProjectById(task.projectId)} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} onOpenTask={onOpenTask} />
                 ))}
-                {columnTasks.length === 0 && <div className="text-center py-8 text-sm text-muted-foreground">No tasks yet</div>}
+                {columnTasks.length === 0 && <div className="text-center py-8 text-sm text-muted-foreground">No tasks</div>}
               </div>
             </div>
           );
