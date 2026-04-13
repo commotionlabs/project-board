@@ -198,10 +198,10 @@ export default function Dashboard() {
   };
 
   const saveCurrentView = () => {
-    const name = prompt('Name this view');
+    const name = prompt('Name this filter');
     if (!name) return;
     const saved: SavedView = { id: `view-${Date.now()}`, name, query, projectId: filterProjectId === 'all' ? undefined : filterProjectId, createdAt: new Date().toISOString() };
-    saveData(withWorkspaceActivity({ ...data, savedViews: [saved, ...(data.savedViews ?? [])] }, `Saved view: ${name}`));
+    saveData(withWorkspaceActivity({ ...data, savedViews: [saved, ...(data.savedViews ?? [])] }, `Saved filter: ${name}`));
   };
 
   const createFromTemplate = (templateId: string) => {
@@ -228,37 +228,45 @@ export default function Dashboard() {
       <header className="border-b sticky top-0 bg-background z-10">
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 space-y-3">
           <div className="hidden sm:flex items-center justify-between gap-3">
-            <div><h1 className="text-2xl font-bold">relay.</h1><p className="text-sm text-muted-foreground">Project Dashboard</p></div>
+            <div><h1 className="text-2xl font-bold">relay.</h1><p className="text-sm text-muted-foreground">Simple work planner</p></div>
             <div className="flex flex-wrap items-center gap-2">
               <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}><TabsList><TabsTrigger value="kanban" className="px-3"><LayoutGrid className="h-4 w-4" /></TabsTrigger><TabsTrigger value="list" className="px-3"><List className="h-4 w-4" /></TabsTrigger></TabsList></Tabs>
-              <Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger className="min-w-[190px]"><SelectValue placeholder="Saved views" /></SelectTrigger><SelectContent><SelectItem value="none">No saved view</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select>
-              <Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Command Palette</Button>
-              <Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save view</Button>
-              <Button variant="outline" onClick={() => setHeaderExpanded((v) => !v)}>{headerExpanded ? <ChevronUp className="h-4 w-4 mr-2" /> : <ChevronDown className="h-4 w-4 mr-2" />}{headerExpanded ? 'Hide panel' : 'Show panel'}</Button>
-              <Button onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New Task</Button>
+              <Select value={activeSavedViewId} onValueChange={setActiveSavedViewId}><SelectTrigger className="min-w-[190px]"><SelectValue placeholder="Saved filters" /></SelectTrigger><SelectContent><SelectItem value="none">No saved filter</SelectItem>{(data.savedViews ?? []).map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}</SelectContent></Select>
+              <Button variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Quick actions</Button>
+              <Button variant="outline" onClick={saveCurrentView}><Save className="h-4 w-4 mr-2" />Save filter</Button>
+              <Button variant="outline" onClick={() => setHeaderExpanded((v) => !v)}>{headerExpanded ? <ChevronUp className="h-4 w-4 mr-2" /> : <ChevronDown className="h-4 w-4 mr-2" />}{headerExpanded ? 'Hide controls' : 'Show controls'}</Button>
+              <Button onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />Add task</Button>
             </div>
           </div>
           {headerExpanded && (
           <>
           <div className="grid gap-2">
-            <div className="relative w-full"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search tasks, tags, descriptions..." className="pl-8 w-full" /></div>
-            <div className="w-full"><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger className="w-full"><SelectValue placeholder="All Projects" /></SelectTrigger><SelectContent><SelectItem value="all">All Projects</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select></div>
+            <div className="relative w-full"><Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by task name, note, or tag..." className="pl-8 w-full" /></div>
+            <div className="w-full"><Select value={filterProjectId} onValueChange={setFilterProjectId}><SelectTrigger className="w-full"><SelectValue placeholder="All areas" /></SelectTrigger><SelectContent><SelectItem value="all">All areas</SelectItem>{data.projects.map((project) => <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>)}</SelectContent></Select></div>
             <div className="sm:hidden grid grid-cols-2 gap-2">
-              <Button variant="outline" className="h-10" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Cmd</Button>
-              <Button className="h-10" onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />New</Button>
+              <Button variant="outline" className="h-10" onClick={() => setPaletteOpen(true)}><Command className="h-4 w-4 mr-2" />Quick</Button>
+              <Button className="h-10" onClick={() => handleAddTask('todo')}><Plus className="h-4 w-4 mr-2" />Add</Button>
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm"><div className="border rounded p-2"><BarChart3 className="h-4 w-4 inline mr-1" />Overdue: <b>{metrics.overdue}</b></div><div className="border rounded p-2">Due soon: <b>{metrics.dueSoon}</b></div><div className="border rounded p-2">Blocked: <b>{metrics.blocked}</b></div><div className="border rounded p-2">Done: <b>{metrics.completed}</b></div></div>
-          <div className="text-xs text-muted-foreground flex items-center justify-end gap-1"><Bell className="h-3 w-3" /> {(data.notifications ?? []).filter((n) => !n.read).length} unread</div>
+          <div className="text-xs text-muted-foreground flex items-center justify-end gap-1"><Bell className="h-3 w-3" /> {(data.notifications ?? []).filter((n) => !n.read).length} new alerts</div>
           </>
           )}
         </div>
       </header>
 
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4">
-        {(data.templates ?? []).length > 0 && <div className="border rounded p-3"><p className="text-sm font-medium mb-2">Templates</p><div className="flex flex-wrap gap-2">{data.templates!.map((t) => <Button key={t.id} variant="outline" size="sm" onClick={() => createFromTemplate(t.id)}>{t.name}</Button>)}</div></div>}
+        <div className="border rounded p-3 bg-muted/20">
+          <p className="text-sm font-medium">Start here</p>
+          <p className="text-xs text-muted-foreground mt-1">1) Pick an area, 2) review what needs attention, 3) open a task to update progress or upload files.</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <Button size="sm" onClick={() => handleAddTask('todo')}><Plus className="h-3.5 w-3.5 mr-1" />Add your first task</Button>
+            <Button size="sm" variant="outline" onClick={() => setPaletteOpen(true)}><Command className="h-3.5 w-3.5 mr-1" />Open quick actions</Button>
+          </div>
+        </div>
+        {(data.templates ?? []).length > 0 && <div className="border rounded p-3"><p className="text-sm font-medium mb-2">Starter task templates</p><div className="flex flex-wrap gap-2">{data.templates!.map((t) => <Button key={t.id} variant="outline" size="sm" onClick={() => createFromTemplate(t.id)}>{t.name}</Button>)}</div></div>}
         {view === 'kanban' ? <KanbanBoard tasks={visibleTasks} projects={data.projects} onStatusChange={handleStatusChange} onEdit={handleEdit} onDelete={handleDelete} onAddTask={handleAddTask} onOpenTask={setActiveTask} /> : <ListView tasks={visibleTasks} projects={data.projects} onStatusChange={handleStatusChange} onEdit={handleEdit} onDelete={handleDelete} onOpenTask={setActiveTask} />}
-        <div className="grid sm:grid-cols-2 gap-4"><div className="border rounded p-3"><h3 className="font-medium mb-2">Workspace activity</h3><div className="space-y-1 max-h-40 overflow-auto text-sm">{(data.activityFeed ?? []).slice(0, 20).map((a) => <div key={a.id} className="border rounded px-2 py-1">{a.summary} <span className="text-muted-foreground text-xs">{new Date(a.createdAt).toLocaleString()}</span></div>)}</div></div><div className="border rounded p-3"><div className="flex items-center justify-between mb-2"><h3 className="font-medium">Notifications</h3><Button variant="ghost" size="sm" onClick={markAllNotificationsRead}><CheckCheck className="h-4 w-4 mr-1" />Mark all</Button></div><div className="space-y-1 max-h-40 overflow-auto text-sm">{(data.notifications ?? []).slice(0, 20).map((n) => <button key={n.id} onClick={() => markNotificationRead(n.id, !n.read)} className={`w-full text-left border rounded px-2 py-1 ${n.read ? '' : 'bg-blue-50'}`}>{n.title}: {n.body}</button>)}</div></div></div>
+        <div className="grid sm:grid-cols-2 gap-4"><div className="border rounded p-3"><h3 className="font-medium mb-2">Recent updates</h3><div className="space-y-1 max-h-40 overflow-auto text-sm">{(data.activityFeed ?? []).slice(0, 20).map((a) => <div key={a.id} className="border rounded px-2 py-1">{a.summary} <span className="text-muted-foreground text-xs">{new Date(a.createdAt).toLocaleString()}</span></div>)}</div></div><div className="border rounded p-3"><div className="flex items-center justify-between mb-2"><h3 className="font-medium">Alerts</h3><Button variant="ghost" size="sm" onClick={markAllNotificationsRead}><CheckCheck className="h-4 w-4 mr-1" />Mark all read</Button></div><div className="space-y-1 max-h-40 overflow-auto text-sm">{(data.notifications ?? []).slice(0, 20).map((n) => <button key={n.id} onClick={() => markNotificationRead(n.id, !n.read)} className={`w-full text-left border rounded px-2 py-1 ${n.read ? '' : 'bg-blue-50'}`}>{n.title}: {n.body}</button>)}</div></div></div>
               <div className="h-16 sm:hidden" />
       </main>
 
@@ -274,7 +282,7 @@ export default function Dashboard() {
       {activeTask && <TaskDetailSidebar task={activeTask} projects={data.projects} allTasks={data.tasks} onClose={() => setActiveTask(null)} onAddComment={handleAddComment} onAddDependency={handleAddDependency} onAddAttachments={handleAddAttachments} />}
       <TaskDialog open={isDialogOpen} onClose={() => { setIsDialogOpen(false); setEditingTask(null); }} onSave={handleSaveTask} task={editingTask} projects={data.projects} defaultStatus={defaultStatus} />
 
-      {paletteOpen && <div className="fixed inset-0 bg-black/30 flex items-start justify-center pt-24 z-50" onClick={() => setPaletteOpen(false)}><div className="bg-background w-[95%] max-w-xl border rounded p-3" onClick={(e) => e.stopPropagation()}><p className="text-sm font-medium mb-2">Command Palette (Ctrl/Cmd+K)</p><Input ref={paletteInputRef} value={paletteQuery} onChange={(e) => { setPaletteQuery(e.target.value); }} placeholder="Search commands, views, tasks..." className="mb-2" /><div className="space-y-1 max-h-80 overflow-auto text-sm"><button className="w-full text-left border rounded px-2 py-1" onClick={() => { setIsDialogOpen(true); setPaletteOpen(false); }}>+ New task</button><button className="w-full text-left border rounded px-2 py-1" onClick={() => { setView(view === 'kanban' ? 'list' : 'kanban'); setPaletteOpen(false); }}>Toggle view</button>{(data.savedViews ?? []).filter((sv) => (`open view ${sv.name}`).toLowerCase().includes(paletteQuery.toLowerCase())).map((sv) => <button key={sv.id} className="w-full text-left border rounded px-2 py-1" onClick={() => { setActiveSavedViewId(sv.id); setPaletteOpen(false); }}>Open view: {sv.name}</button>)}{data.tasks.filter((t) => `${t.title} ${t.description ?? ''} ${(t.tags ?? []).join(' ')}`.toLowerCase().includes(paletteQuery.toLowerCase())).slice(0, 20).map((t) => <button key={t.id} className="w-full text-left border rounded px-2 py-1" onClick={() => { setActiveTask(t); setPaletteOpen(false); }}>{t.title}</button>)}</div></div></div>}
+      {paletteOpen && <div className="fixed inset-0 bg-black/30 flex items-start justify-center pt-24 z-50" onClick={() => setPaletteOpen(false)}><div className="bg-background w-[95%] max-w-xl border rounded p-3" onClick={(e) => e.stopPropagation()}><p className="text-sm font-medium mb-2">Quick actions (Ctrl/Cmd+K)</p><Input ref={paletteInputRef} value={paletteQuery} onChange={(e) => { setPaletteQuery(e.target.value); }} placeholder="Search actions, filters, or tasks..." className="mb-2" /><div className="space-y-1 max-h-80 overflow-auto text-sm"><button className="w-full text-left border rounded px-2 py-1" onClick={() => { setIsDialogOpen(true); setPaletteOpen(false); }}>+ Add task</button><button className="w-full text-left border rounded px-2 py-1" onClick={() => { setView(view === 'kanban' ? 'list' : 'kanban'); setPaletteOpen(false); }}>Switch board/list view</button>{(data.savedViews ?? []).filter((sv) => (`open view ${sv.name}`).toLowerCase().includes(paletteQuery.toLowerCase())).map((sv) => <button key={sv.id} className="w-full text-left border rounded px-2 py-1" onClick={() => { setActiveSavedViewId(sv.id); setPaletteOpen(false); }}>Open filter: {sv.name}</button>)}{data.tasks.filter((t) => `${t.title} ${t.description ?? ''} ${(t.tags ?? []).join(' ')}`.toLowerCase().includes(paletteQuery.toLowerCase())).slice(0, 20).map((t) => <button key={t.id} className="w-full text-left border rounded px-2 py-1" onClick={() => { setActiveTask(t); setPaletteOpen(false); }}>{t.title}</button>)}</div></div></div>}
     </div>
   );
 }
